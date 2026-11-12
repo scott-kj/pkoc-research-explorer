@@ -1,6 +1,34 @@
 # Verification scope
 
-## Interactive graph update
+## November 12, 2026 explorer revision
+
+This revision adds Paper, Circle, deterministic Random and rotatable 3D sphere arrangements; degree-based node area; a combined CAMEO appearance toggle; visible isolate controls; an adjacent evidence inspector; current-view SVG/PNG export; a linked research framework; and the author's contact page. The interactive R view is retired, while the frozen R records and historical disclosure remain available. L is described as the executed model workflow and A as its human-reviewed continuation, consistently with the historical methods.
+
+Local Windows checks used CPython 3.12.14 and Node 24.18.0. All **40 JavaScript tests**, **39 portable pipeline tests**, **four onboarding tests**, and **seven publication tests** passed. The controlled-server Python fixtures required loopback access outside the local execution sandbox; they made no paid or external inference calls. CI retains its existing Node 22 and exact Python 3.12.14 declarations.
+
+The publication verifier checked 48 artifact files and the unchanged approved annotation snapshot. The independent JavaScript projector matched all six networks, including incidence evidence, isolates and exact weights: L sentence/paragraph/report have 116/186/929 edges and 125 nodes; A has 128/196/887 edges and 117 nodes. Original study replays and manuscript checks below retain their historical scope; this interface revision does not rerun LLM inference or the 1,000-draw study.
+
+New geometry tests cover deterministic arrangements, unchanged paper coordinates, separate layout/context state, reversible 3D rotation, hemisphere-preserving surface movement, frontmost picking, stable keyboard order, degree-area scaling, click-to-place cancellation and source-object immutability. Export tests cover XML/Unicode text, dimensions, filenames and wrapping of legends and captions.
+
+Real browser checks covered layout switching and position retention after filtering, neutral/CAMEO appearance, background orbit, single-node dragging, arrow-key movement, click-to-place, Escape cancellation, full-screen exit, keyboard edge evidence, old R links, contact information, local model-only bundles and malicious-looking actor names rendered as text. A malformed grounding fixture was rejected without replacing the loaded study. Layouts at 375, 768, 1024 and 1440 pixels had no horizontal page overflow; the inspector moved alongside the graph at 1024 pixels and the framework stacked vertically on mobile. No application console errors were observed.
+
+Actual SVG and PNG downloads were inspected. The PNG dimensions were exactly twice those of its SVG counterpart, Unicode labels remained readable, and the neutral-color export omitted the CAMEO key. A full-screen SVG retained the composed camera, enabled role key, degree key, selection/filter caption and sphere orientation. The export contained no script, external image or foreign-object elements. Optional source prose and the inspector are excluded from image serialization.
+
+Commands used:
+
+```text
+node --test web/tests/*.test.cjs
+python -m unittest discover -s code -p "test_case_pipeline*.py"
+python -m unittest discover -s tools -p "test_*.py"
+python tools/run_demo.py --output runs/browser-demo
+python tools/build_site.py --output <new-build-directory>
+python tools/verify_site.py <new-build-directory> --require-public-approval
+node web/tests/check_bundle.cjs <new-build-directory>/bundle.json
+```
+
+The fictional example again completed 16 scripted fixture requests, five paragraphs and three actors. The [Actions workflow](https://github.com/scott-kj/pkoc-research-explorer/actions/workflows/pages.yml) records commit-specific Windows/Linux checks and deployment. Local paths, browser fixtures, screenshots and generated builds are excluded from the source commit.
+
+## Earlier interactive graph update
 
 The enlarged graph adds a separate presentation module for dragging, panning, zooming, label selection and full-screen exploration. It keeps copied coordinates apart from the immutable annotation bundle. Four new JavaScript checks cover fit bounds, pointer-centered zoom, zoomed movement and layout-copy integrity; all 24 JavaScript tests and seven publication checks pass locally. The six UNMIL projections retain exact parity.
 

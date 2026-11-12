@@ -1,8 +1,10 @@
 # Public explorer bundle contract
 
-The normalized download uses pkoc-explorer-v1. JSON preserves exact values; CSV provides rectangular views with nested arrays/objects serialized as JSON cells. The [data dictionary](data-dictionary.md) explains each collection.
+The PKOC UNMIL Network Explorer's normalized download uses pkoc-explorer-v1. JSON preserves exact values; CSV provides rectangular views with nested arrays/objects serialized as JSON cells. The [data dictionary](data-dictionary.md) explains each collection. The reusable toolkit continues to use this generic PKOC bundle format.
 
 Required root keys are schema, dataset, reports, nodes, occurrences, claims, attributes, paragraphs, sentences, interventions, correspondence, reference_units, networks, codebook and provenance. Empty collections are arrays. Model-only imports declare rosters [L]; the frozen UNMIL example declares L, A and R.
+
+Interactive study controls expose L and A. R and `reference_units` remain unchanged in the frozen bundle and annotation downloads for historical transparency; removing the Reference audit interface does not delete or reinterpret those records. R remains a dependent reference covering 120 selected paragraphs in six reports. It must not be treated as full-corpus ground truth or promoted to a normal construction branch. Older Reference audit view links resolve to Research workflow.
 
 - Actor identity is (workflow, actor_id), not a name.
 - Occurrence identity is (workflow, occurrence_id). Unresolved actor_id is null.
@@ -14,6 +16,14 @@ Required root keys are schema, dataset, reports, nodes, occurrences, claims, att
 - Public glossary prose is separate from scientific fields. Codes and all analytical records remain unchanged.
 
 The browser validates relationships, declared branches, duplicate IDs, span consistency, paragraph hashes and all embedded projections before accepting an imported bundle. An internally consistent imported dataset is not automatically the trusted UNMIL study. Published advanced metrics are available only for the trusted embedded study and a supported complete construction. Local source text must match its declared paragraph hash before it is displayed.
+
+## Graph presentation and image exports
+
+Paper, Circle, Random and 3D sphere layouts, dragged coordinates and camera state are presentation settings. They do not change frozen `nodes[].layout`, annotation fields, the selected construction, incidence, edge weights or scientific snapshot. Apparent distance or depth does not encode an additional political relationship. Node size represents the number of neighbors in the constructed network, including when visibility controls hide some actors.
+
+Hide isolates, CAMEO appearance, role visibility and label controls affect displayed marks only. The CAMEO appearance toggle controls role colors and the role legend; it does not remove role assignments or alter a selected role filter. Role and specialty fields remain available in data exports. Actor/edge inspection uses the same identifiers in normal and full-screen views.
+
+SVG and PNG downloads capture the current graph presentation, including its viewport, layout, visibility and labels. They omit the surrounding application controls and inspector. They are image artifacts of a selected view, not complete analytical exports. CSV, incidences and GraphML continue to contain the complete constructed network, including actors hidden by display filters. Downloaded view settings describe the construction and presentation separately; neither image export nor rearrangement silently changes the frozen bundle or its expected hashes.
 
 ## Build and verify
 

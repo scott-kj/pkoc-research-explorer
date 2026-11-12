@@ -1,4 +1,4 @@
-# Explorer annotation data dictionary
+# PKOC UNMIL Network Explorer annotation data dictionary
 
 The authoritative normalized download is `bundle.json` with schema `pkoc-explorer-v1`. CSV files are convenient rectangular views of the same rows; they do not replace the JSON types. See the [contract and export commands](explorer-data-contract.md) and [research workflow](research-workflow.md).
 
@@ -8,7 +8,7 @@ IDs are stable within the frozen release or a particular hash-bound case run. An
 
 | Convention | Meaning |
 |---|---|
-| `L` / `A` / `R` | Frozen machine / saved assisted / bounded dependent-reference branch. A new automated case contains L only. |
+| `L` / `A` / `R` | Frozen executed model workflow / human-reviewed continuation / bounded dependent-reference branch. Historical L includes recorded deterministic processing and capacity amendments; it is not a controlled model-alone evaluation. A new automated case contains model-only L output. |
 | `null` | Not recorded, unresolved or not applicable, according to the field and its status. It is not numeric zero, proof of absence, or an invented date. |
 | `[]` | No recorded members of that collection. Inspect status/coverage to distinguish valid empty output from failure or unavailable support. |
 | `start`, `end` | Zero-based, half-open Unicode codepoint offsets in the canonical paragraph. Python `text[start:end]` is the intended slice. |
@@ -50,7 +50,7 @@ Actors appear in `nodes` and `downloads/actors.csv`.
 | `coded_reports`, `eligible_reports`, `primary_coded_reports` | Report-level coding coverage counts. |
 | `cameo_partial_coding`, `primary_cameo_partial_coding` | Explicit partial-coding flags; missing coverage must not be converted to a substantive category. |
 | `applicability_assumption_reports` | Number of associated reports using documented applicability assumptions. |
-| `layout` | Finite SVG coordinates `{x,y}` for stable presentation; not a scientific variable. Frozen L/A actors use the complete governed shared display mapping; a missing or inconsistent mapping fails export. R has no published layout and uses a separate deterministic full circle. |
+| `layout` | Finite SVG coordinates `{x,y}` for stable presentation; not a scientific variable. Frozen L/A actors use the complete governed shared display mapping; a missing or inconsistent mapping fails export. Archived R records use a separate deterministic circle and remain in downloads. Interactive layout choices do not overwrite these frozen coordinates. |
 | `identity_origin` | Optional case-pipeline marker such as `model-only`. It does not imply human verification. |
 
 The frozen A alias allowlist records source artifact basenames/hashes and the exact 578-observation bridge for 117 actors. It contains 174 strings. It omits the old HTML, raw journals, embedded paragraphs and unrelated annotation records.
@@ -112,7 +112,7 @@ The 28-code public glossary is exposed as `{code,label,definition}`. It provides
 
 `interventions` / `downloads/interventions.csv` contain the available safe fields from `human_changes.csv`: `candidate_id`, `decision`, `human_added`, `boundary_changed`, `native_ids`, and `paragraph_id`. They show which saved candidate decisions are available; they do not constitute a complete session journal or a claim about annotation time. They are empty for new automated cases.
 
-`correspondence` contains the frozen L/A span-based mapping: `L_actor`, `L_name`, `A_actor`, `A_name`, `shared_spans`, `one_to_one`. This is an analytical mapping, not a license to merge native rosters. `reference_units` lists the 120 paragraph IDs eligible for the separate R audit.
+`correspondence` contains the frozen L/A span-based mapping: `L_actor`, `L_name`, `A_actor`, `A_name`, `shared_spans`, `one_to_one`. This is an analytical mapping, not a license to merge native rosters. A continues from compatible L proposals; the correspondence does not make the branches independent. `reference_units` lists the 120 paragraph IDs defining the historical R comparison scope across six reports. The records remain in downloads; the website does not offer an interactive R branch.
 
 ## Network products
 
@@ -128,7 +128,7 @@ Each `networks` entry has `workflow`, `scale`, selected `report_ids`, `reference
 
 `published_metrics` may include degree normalization, betweenness, eigenvector variants, harmonic centrality, clustering, component, core and community. They are carried from reviewed baseline outputs, not recomputed for arbitrary views. Basic degree/strength and edge weights are transparently recomputed from the selected incidences.
 
-Download files are `{workflow}_{scale}_nodes.csv`, `_edges.csv`, `_incidences.json`, and `.graphml`. GraphML includes isolates and edge support IDs. The default frozen export supplies the six L/A networks; R is generated only in its bounded audit view.
+Download files are `{workflow}_{scale}_nodes.csv`, `_edges.csv`, `_incidences.json`, and `.graphml`. GraphML includes isolates and edge support IDs. The default frozen export supplies the six L/A networks. R annotations and reference-unit identifiers remain in `bundle.json` and the complete annotation download for historical inspection, without an interactive R projection. Any reconstruction from those records must restrict incidence to the selected paragraphs, including at report scale.
 
 ## Citation, licensing and publication
 
@@ -136,4 +136,6 @@ Cite [CITATION.cff](../CITATION.cff), the exact repository version, the unpublis
 
 ## Explorer role controls and current-view exports
 
-The network role legend and filter aggregate `attributes.role_codes` only over the selected reports in the selected workflow. Multiple roles retain a separate display category; an empty role set means not recorded in that scope. Specialties and the analytical union remain separate. These are display controls, not additional network exclusions. Current-view node CSV and GraphML downloads carry `role_codes` and `specialty_codes` from that report selection. Saved view settings include `display.cameo_role` and `role_scope: selected_reports`. Construction, isolates, edge weights and the frozen bundle are unchanged.
+The network role legend and filter aggregate `attributes.role_codes` only over the selected reports in the selected workflow. Multiple roles retain a separate display category; an empty role set means not recorded in that scope. Specialties and the analytical union remain separate. These are display controls, not additional network exclusions. The CAMEO appearance toggle changes colors and the legend, preserving any selected role filter. Current-view node CSV and GraphML downloads carry `role_codes` and `specialty_codes` from that report selection. Saved view settings include `display.cameo_role` and `role_scope: selected_reports`. Construction, isolates, edge weights and the frozen bundle are unchanged.
+
+Paper, Circle, Random and 3D sphere are alternative graph presentations. Node size reflects degree in the complete constructed network; hide-isolate and other visibility controls do not recalculate degree. Downloaded view settings keep presentation separate from construction. SVG and PNG images capture the current visible graph, while node/edge tables, incidences and GraphML retain the full constructed network, including hidden actors. See the [presentation contract](explorer-data-contract.md#graph-presentation-and-image-exports).

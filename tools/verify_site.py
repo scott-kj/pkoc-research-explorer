@@ -19,7 +19,7 @@ def verify(site, require_approval=False):
     names = {row['path'] for row in rows}
     if len(names) != len(rows):
         raise ValueError('Duplicate website manifest path')
-    allowed_root = {'index.html', 'app.js', 'core.js', 'graph.js', 'styles.css', 'favicon.svg', 'bundle.js', 'bundle.json',
+    allowed_root = {'index.html', 'app.js', 'core.js', 'graph.js', 'export.js', 'styles.css', 'favicon.svg', 'bundle.js', 'bundle.json',
                     'LICENSE', 'LICENSE-DATA.md', 'NOTICES.md', 'CITATION.cff', 'publication.json', '.nojekyll'}
     actual = set()
     for path in site.rglob('*'):

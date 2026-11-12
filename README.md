@@ -1,6 +1,6 @@
-# PKOC annotation-to-network toolkit & research explorer
+# PKOC UNMIL Network Explorer
 
-Use LLMs to help annotate researcher-selected English PKOC reports, then construct transparent co-occurrence networks. Inspect the documented UNMIL research example by Krerkkaiwan Kajohnkunchonlathorn, download its structured annotations, or run the software on your own reports.
+Explore the documented UNMIL research example by Krerkkaiwan Kajohnkunchonlathorn, inspect the evidence behind its networks, and download its structured annotations. The repository also includes a reusable PKOC annotation-to-network toolkit for researcher-selected English reports.
 
 **Website:** https://scott-kj.github.io/pkoc-research-explorer/
 
@@ -8,17 +8,19 @@ Use LLMs to help annotate researcher-selected English PKOC reports, then constru
 
 ## Explore and download
 
-The website opens directly to **Network construction**. CAMEO role colors, named filters, and a labeled legend reflect the selected reports. Multiple roles stay multiple; specialties remain separate. Display filters change visibility, while the complete constructed network is retained in exports. Raw provenance and integrity values stay in downloadable files rather than the main interface.
+The website opens directly to **Network construction**. CAMEO role colors, named filters, and a labeled legend reflect the selected reports. Toggle the CAMEO display to use neutral nodes and hide the role legend without changing the annotations or role selection. Multiple roles stay multiple; specialties remain separate. **Hide isolates** hides actors with no neighbors in the constructed network. Display controls change visibility, while table and GraphML exports retain the complete constructed network. Raw provenance and integrity values stay in downloadable files rather than the main interface.
 
-- Follow the [research workflow](docs/research-workflow.md) from report checks and cleaning to annotation, identity resolution and network projection.
+- Follow the linked [research framework and workflow](docs/research-workflow.md) from report checks and cleaning to annotation, human review, and network comparison.
 - Search actor × year observations, inspect actor records and examine the distinct units supporting each edge.
-- Switch L/A and sentence/paragraph/report contexts. Reset to the complete UNMIL paper preset. R has its own limited reference-audit view.
-- Download annotations, actor and edge tables, incidence lists, GraphML and view settings.
+- Switch L/A and sentence/paragraph/report contexts. Reset to the complete UNMIL paper preset. The limited historical R reference remains documented and included in the frozen downloads; it is not an interactive branch on the website.
+- Download annotations, actor and edge tables, incidence lists, GraphML and view settings, or save the current graph as SVG or PNG.
 - Load compatible JSON bundles or verified source text locally. The application does not upload these files or request API credentials.
 
-The larger graph supports mouse/touch dragging, background panning, zoom controls, and **Full screen**. Smart labels avoid overlaps; choose **All labels** to see every name or **Selected only** to focus on one actor. Names stay readable while zooming. Focus a node and use arrow keys to move it (Shift moves farther), or use the movement buttons in its evidence panel. **Fit** frames the current positions; **Reset layout** restores the saved arrangement for the current branch and scale.
+The larger graph supports mouse/touch dragging, background panning, zoom controls, and **Full screen**. Choose **Paper**, **Circle**, **Random**, or **3D sphere** to rearrange the same network. Paper uses the saved study arrangement; the other layouts provide alternative ways to inspect connections. Position and apparent depth are presentation choices, not measured relationships. Node size distinguishes **degree**, the number of connected actors, rather than the number of mentions or total edge weight.
 
-Dragged positions persist across filters within the current page session and are included in downloaded view settings. They do not change annotations, edges, weights, or scientific exports, and they are not restored from a URL after reload. Full-screen mode retains the evidence panel and dialogs; Escape or **Exit full screen** returns to the page. Browsers that restrict the Fullscreen API use a full-window workspace.
+Smart labels avoid overlaps; choose **All labels** to see every name or **Selected only** to focus on one actor. Names stay readable while zooming. Focus a node and use arrow keys to move it (Shift moves farther). **Fit** frames the current positions. Actor and edge details appear beside the graph on wide screens and below it on smaller screens, including in full-screen mode.
+
+Dragged positions persist across filters within the current page session and are included in downloaded view settings. They do not change annotations, edges, weights, or scientific exports, and they are not restored from a URL after reload. SVG and PNG images capture the current graph view, including its display filters, layout, labels, and camera; they are illustrations of that view, not substitutes for the complete network tables. Full-screen mode retains the evidence panel and dialogs; Escape or **Exit full screen** returns to the page. Browsers that restrict the Fullscreen API use a full-window workspace.
 
 Year cells count observations in published reports; blanks do not establish absence or tenure. Edges represent undirected co-occurrence, not interactions or alliances. The [data dictionary](docs/data-dictionary.md) explains identity, uncertainty, human decisions and source support.
 
@@ -72,6 +74,10 @@ This repository executes the reusable annotation pipeline and reproduces network
 Original code is [MIT](LICENSE). Original annotations and written content are [CC BY 4.0](LICENSE-DATA.md), with [third-party exclusions](NOTICES.md). Cite [CITATION.cff](CITATION.cff), the repository commit and the downloaded bundle's SHA-256. The accompanying manuscript, *LLM-Assisted Annotation for Political Network Research: Evidence from UN Peacekeeping Reports*, remains unpublished; no DOI is asserted.
 
 The source archive, complete report paragraphs, manuscript files, private annotation journals, participant/session records, model weights, API credentials and raw inference logs are not distributed here. Source rights for attributed annex material in S/2004/428 and S/2017/282 remain unresolved. This narrower structured-data publication does not clear or release those archives. See [the scoped review](docs/publication-review.md).
+
+## Contact
+
+Krerkkaiwan Kajohnkunchonlathorn · [Krerkkaiwan.k@cib.go.th](mailto:Krerkkaiwan.k@cib.go.th) · [LinkedIn](https://www.linkedin.com/in/police-major-krerkkaiwan-kajohnkunchonlathorn-872a91176/).
 
 ## Maintenance
 
