@@ -8,6 +8,8 @@ Explore the documented UNMIL research example by Krerkkaiwan Kajohnkunchonlathor
 
 ## Explore and download
 
+The original dark theme remains the default. Choose **Light mode** in the header or graph toolbar for a light background; **Dark mode** restores the original appearance. Your preference is saved in this browser, including after reload. Theme changes preserve your filters, selections and graph positions. SVG and PNG downloads use the selected theme.
+
 The website opens directly to **Network construction**. CAMEO role colors, named filters, and a labeled legend reflect the selected reports. Toggle the CAMEO display to use neutral nodes and hide the role legend without changing the annotations or role selection. Multiple roles stay multiple; specialties remain separate. **Hide isolates** hides actors with no neighbors in the constructed network. Display controls change visibility, while table and GraphML exports retain the complete constructed network. Raw provenance and integrity values stay in downloadable files rather than the main interface.
 
 - Follow the linked [research framework and workflow](docs/research-workflow.md) from report checks and cleaning to annotation, human review, and network comparison.

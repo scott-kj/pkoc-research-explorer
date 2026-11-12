@@ -9,11 +9,15 @@
  const ATTRS=new Set(['x','y','x1','y1','x2','y2','cx','cy','r','rx','ry','width','height','d','points','transform','viewBox','preserveAspectRatio','dx','dy','textLength','lengthAdjust','rotate','vector-effect']);
  // Restrict copied styles to visual values. Never copy URLs, event handlers,
  // interaction state, page stylesheets, or optional evidence in the inspector.
- const STYLES=['fill','fill-opacity','fill-rule','stroke','stroke-width','stroke-opacity','stroke-linecap','stroke-linejoin','stroke-miterlimit','stroke-dasharray','stroke-dashoffset','opacity','display','visibility','font-family','font-size','font-weight','font-style','font-variant','letter-spacing','word-spacing','text-anchor','dominant-baseline','paint-order','vector-effect'];
+ const STYLES=['fill','fill-opacity','fill-rule','stroke','stroke-width','stroke-opacity','stroke-linecap','stroke-linejoin','stroke-miterlimit','stroke-dasharray','stroke-dashoffset','opacity','display','visibility','filter','font-family','font-size','font-weight','font-style','font-variant','letter-spacing','word-spacing','text-anchor','dominant-baseline','paint-order','vector-effect'];
  function escapeXml(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));}
  function safeColor(value,fallback='#a9bbd1'){
   const color=String(value||'').trim();
   return /^(?:#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})|(?:rgb|rgba|hsl|hsla)\([\d\s.,%+/-]+\)|transparent|black|white)$/i.test(color)?color:fallback;
+ }
+ const DEFAULT_PALETTE=Object.freeze({ink:'#eaf1fc',muted:'#a9bbd1',line:'#2b405b',nodeFill:'#83a3c7',nodeStroke:'#eaf1fc'});
+ function exportPalette(value={}){
+  return Object.fromEntries(Object.entries(DEFAULT_PALETTE).map(([key,fallback])=>[key,safeColor(value?.[key],fallback)]));
  }
  function fileName(value,format){
   const base=String(value||'pkoc-network').replace(/\.(?:svg|png)$/i,'').replace(/[\x00-\x1f\x7f<>:"/\\|?*]/g,'-').replace(/[. ]+$/g,'').trim().slice(0,150)||'pkoc-network';
@@ -44,18 +48,19 @@
   return lines;
  }
  function footerSvg(width,options={}){
-  const pad=20,usable=Math.max(40,width-pad*2),limit=Math.max(8,Math.floor(usable/8));
+  const palette=exportPalette(options.palette),pad=20,usable=Math.max(40,width-pad*2),limit=Math.max(8,Math.floor(usable/8));
   let y=29;const parts=[];
-  const text=(value,x,baseline,size=13,color='#a9bbd1',weight=400)=>'<text x="'+x+'" y="'+baseline+'" fill="'+safeColor(color)+'" font-family="system-ui, sans-serif" font-size="'+size+'" font-weight="'+weight+'">'+escapeXml(value)+'</text>';
-  for(const line of wrapText(options.caption||'PKOC UNMIL Network Explorer · Current view',limit)){parts.push(text(line,pad,y,13,'#eaf1fc'));y+=20;}
+  const text=(value,x,baseline,size=13,color=palette.muted,weight=400)=>'<text x="'+x+'" y="'+baseline+'" fill="'+safeColor(color,palette.muted)+'" font-family="system-ui, sans-serif" font-size="'+size+'" font-weight="'+weight+'">'+escapeXml(value)+'</text>';
+  for(const line of wrapText(options.caption||'PKOC UNMIL Network Explorer · Current view',limit)){parts.push(text(line,pad,y,13,palette.ink));y+=20;}
   const legend=Array.isArray(options.legend)?options.legend:[];
   if(legend.length){
-   y+=8;parts.push(text('CAMEO roles',pad,y,12,'#a9bbd1',600));y+=22;
+   y+=8;parts.push(text('CAMEO roles',pad,y,12,palette.muted,600));y+=22;
    let x=pad;
    for(const item of legend){
     const lines=wrapText(item.label,Math.max(8,Math.floor((usable-26)/7.2))),itemWidth=Math.min(usable,28+Math.max(...lines.map(s=>Array.from(s).length))*7.2);
     if(x>pad&&x+itemWidth>width-pad){x=pad;y+=27;}
-    parts.push('<circle cx="'+(x+5)+'" cy="'+(y-4)+'" r="4" fill="'+safeColor(item.color)+'"/>');
+    const outline=palette.nodeStroke===DEFAULT_PALETTE.nodeStroke?'':' stroke="'+palette.nodeStroke+'" stroke-width="1"';
+    parts.push('<circle cx="'+(x+5)+'" cy="'+(y-4)+'" r="4" fill="'+safeColor(item.color,palette.muted)+'"'+outline+'/>');
     lines.forEach((line,i)=>parts.push(text(line,x+16,y+i*19,12)));
     if(lines.length>1){y+=(lines.length-1)*19;x=pad;y+=27;}else x+=itemWidth;
    }
@@ -63,12 +68,12 @@
   }
   const sizeKey=(Array.isArray(options.sizeKey)?options.sizeKey:[]).filter(p=>Number.isFinite(p.degree)&&p.degree>=0&&Number.isFinite(p.radius)&&p.radius>0&&p.radius<=30);
   if(sizeKey.length){
-   y+=6;for(const line of wrapText('Node size: distinct connected actors (degree)',limit)){parts.push(text(line,pad,y,12,'#a9bbd1',600));y+=18;}y+=14;
+   y+=6;for(const line of wrapText('Node size: distinct connected actors (degree)',limit)){parts.push(text(line,pad,y,12,palette.muted,600));y+=18;}y+=14;
    let x=pad;
    for(const item of sizeKey){
     const label=String(item.degree),itemWidth=item.radius*2+18+Array.from(label).length*8+24;
     if(x>pad&&x+itemWidth>width-pad){x=pad;y+=48;}
-    parts.push('<circle cx="'+(x+item.radius)+'" cy="'+y+'" r="'+item.radius+'" fill="#83a3c7" stroke="#eaf1fc" stroke-width="1"/>');
+    parts.push('<circle cx="'+(x+item.radius)+'" cy="'+y+'" r="'+item.radius+'" fill="'+palette.nodeFill+'" stroke="'+palette.nodeStroke+'" stroke-width="1"/>');
     parts.push(text(label,x+item.radius*2+10,y+4,12));x+=itemWidth;
    }
    y+=28;
@@ -98,8 +103,8 @@
   clone.setAttribute('viewBox',svg.getAttribute('viewBox')||'0 0 '+size.width+' '+size.height);
   clone.style.setProperty('overflow','hidden');
   const content=new view.XMLSerializer().serializeToString(clone);
-  const title=options.title||'PKOC UNMIL Network Explorer';
-  const source='<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="'+NS+'" width="'+size.width+'" height="'+height+'" viewBox="0 0 '+size.width+' '+height+'" role="img"><title>'+escapeXml(title)+'</title><desc>'+escapeXml(options.caption||'Current network view')+'</desc><rect width="100%" height="100%" fill="'+safeColor(options.background,'#080f1b')+'"/>'+content+'<g transform="translate(0 '+size.height+')"><path d="M20 0H'+Math.max(20,size.width-20)+'" stroke="#2b405b"/>'+footer.source+'</g></svg>';
+  const title=options.title||'PKOC UNMIL Network Explorer',palette=exportPalette(options.palette);
+  const source='<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="'+NS+'" width="'+size.width+'" height="'+height+'" viewBox="0 0 '+size.width+' '+height+'" role="img"><title>'+escapeXml(title)+'</title><desc>'+escapeXml(options.caption||'Current network view')+'</desc><rect width="100%" height="100%" fill="'+safeColor(options.background,'#080f1b')+'"/>'+content+'<g transform="translate(0 '+size.height+')"><path d="M20 0H'+Math.max(20,size.width-20)+'" stroke="'+palette.line+'"/>'+footer.source+'</g></svg>';
   return {source,width:size.width,height};
  }
  function downloadBlob(doc,blob,name){
@@ -126,5 +131,5 @@
   }
   return {filename:name,width:snapshot.width*(format==='png'?2:1),height:snapshot.height*(format==='png'?2:1),format};
  }
- return {exportGraph,serializeGraph,escapeXml,safeColor,fileName,dimensions,wrapText,footerSvg};
+ return {exportGraph,serializeGraph,escapeXml,safeColor,exportPalette,fileName,dimensions,wrapText,footerSvg};
 });

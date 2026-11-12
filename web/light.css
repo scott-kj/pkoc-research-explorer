@@ -1,0 +1,228 @@
+/* Original explorer code: MIT. Light appearance only; structure and data are unchanged. */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --background: #f2f6f8;
+  --paper: #ffffff;
+  --surface: #eaf0f5;
+  --surface-hover: #dce7ef;
+  --ink: #172a3a;
+  --muted: #465d70;
+  --navy: #243e53;
+  --teal: #006c65;
+  --teal-light: #e1f2ef;
+  --blue: #174f8d;
+  --amber: #8b5800;
+  --line: #bdcbd5;
+  --control-line: #6b7e8d;
+  --shadow: 0 12px 36px #203f5510;
+  --graph-background: #f8fbfd;
+  --graph-ink: #132b40;
+  --graph-muted: #485f72;
+  --graph-line: #3e5b70;
+  --graph-neutral: #57778e;
+  --graph-outline: #244257;
+  --export-node-fill: #57778e;
+}
+
+:root[data-theme="light"] body {
+  background: radial-gradient(ellipse at 70% 0, #cde7ee66, transparent 55%);
+}
+:root[data-theme="light"] ::selection { background: #b9dedb; color: #172a3a; }
+:root[data-theme="light"] .site-header { background: #ffffff; }
+:root[data-theme="light"] .brand-mark {
+  color: var(--teal);
+  border-color: #4e817f;
+  background: #edf7f5;
+  box-shadow: inset 0 0 18px #006c6506;
+}
+:root[data-theme="light"] .status-badge {
+  border-color: #51847b;
+  background: #e5f3ee;
+  color: #1d5c4b;
+}
+:root[data-theme="light"] .message {
+  background: #e1f2ef;
+  color: #20594f;
+  border-color: var(--teal);
+}
+:root[data-theme="light"] .error-panel {
+  border-color: #ad5353;
+  background: #fff0ee;
+  color: #8b2929;
+}
+:root[data-theme="light"] .tabs button[aria-selected="true"],
+:root[data-theme="light"] .actor-list-item[aria-current="true"] {
+  background: #e1f2ef;
+  border-color: #4e817f;
+  color: #155d57;
+}
+:root[data-theme="light"] .button:hover,
+:root[data-theme="light"] .icon-button:hover,
+:root[data-theme="light"] .small-button:hover,
+:root[data-theme="light"] .neighbor-button:hover,
+:root[data-theme="light"] .unit-button:hover {
+  border-color: #516d82;
+}
+:root[data-theme="light"] .button.primary {
+  background: var(--teal);
+  border-color: var(--teal);
+  color: #ffffff;
+}
+:root[data-theme="light"] .button.primary:hover {
+  background: #005b55;
+  border-color: #005b55;
+  color: #ffffff;
+}
+:root[data-theme="light"] .step-number { border-color: #4e817f; }
+
+/* Native form menus follow color-scheme; explicit backgrounds also cover forced option menus. */
+:root[data-theme="light"] .controls input,
+:root[data-theme="light"] .controls select,
+:root[data-theme="light"] .display-options-body input,
+:root[data-theme="light"] .display-options-body select,
+:root[data-theme="light"] .label-control select,
+:root[data-theme="light"] .sphere-controls input,
+:root[data-theme="light"] .sphere-controls select {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--control-line);
+}
+:root[data-theme="light"] option,
+:root[data-theme="light"] optgroup { background: var(--paper); color: var(--ink); }
+:root[data-theme="light"] input::placeholder { color: #586b7b; opacity: 1; }
+:root[data-theme="light"] .toolbar-toggle { border-color: var(--control-line); }
+:root[data-theme="light"] input[type="checkbox"] { accent-color: var(--teal); }
+:root[data-theme="light"] .data-tools > summary:hover,
+:root[data-theme="light"] .display-options > summary:hover,
+:root[data-theme="light"] .graph-export > summary:hover {
+  background: var(--surface-hover);
+  border-color: var(--control-line);
+}
+
+/* Panels, menus and fullscreen inherit light tokens; override the legacy explicit canvas colors. */
+:root[data-theme="light"] .graph-panel,
+:root[data-theme="light"] #graph-wrap { background-color: var(--graph-background); }
+:root[data-theme="light"] #graph-wrap {
+  background-image: radial-gradient(#b7c8d366 1px, transparent 1px);
+}
+:root[data-theme="light"] #network-layout.expanded,
+:root[data-theme="light"] #network-layout:fullscreen {
+  background: var(--background);
+}
+:root[data-theme="light"] #network-layout::backdrop { background: var(--background); }
+:root[data-theme="light"] .graph-toolbar,
+:root[data-theme="light"] .graph-footer { background: var(--paper); }
+:root[data-theme="light"] .sphere-controls { background: #e9f1f6; }
+:root[data-theme="light"] .graph-announcement {
+  background: #e1f2eff7;
+  color: #20594f;
+  border-color: #4e817f;
+}
+:root[data-theme="light"] .role-chip,
+:root[data-theme="light"] .role-key { background: #eaf0f5; color: var(--muted); }
+:root[data-theme="light"] .role-chip { border-color: var(--control-line); }
+:root[data-theme="light"] .role-chip:hover { background: var(--surface-hover); color: var(--ink); }
+:root[data-theme="light"] .role-chip[aria-pressed="true"] {
+  background: var(--teal-light);
+  border-color: var(--teal);
+  color: #155d57;
+}
+:root[data-theme="light"] .role-swatch {
+  /* Keep category fill values intact, including pale categories. */
+  box-shadow: 0 0 0 1px var(--graph-outline);
+}
+:root[data-theme="light"] .tag { color: #294962; }
+:root[data-theme="light"] .tag.role-tag {
+  border-color: #4e817f;
+  background: #e1f2ef;
+  color: #155d57;
+}
+:root[data-theme="light"] .notice {
+  background: #fff4db;
+  border-color: var(--amber);
+  color: #704b12;
+}
+
+/* Observation tables keep their distinct known, multiple and unavailable coding states. */
+:root[data-theme="light"] th,
+:root[data-theme="light"] .matrix th:first-child { color: #294357; background: #e9f0f5; }
+:root[data-theme="light"] tbody tr:hover { background: #eaf2f7; }
+:root[data-theme="light"] .matrix .cell {
+  background: #e1f2ef;
+  color: #155d57;
+  border-color: #4e817f;
+}
+:root[data-theme="light"] .matrix .cell.multiple {
+  background: #f0eafa;
+  color: #594077;
+  border-color: #8a6ba7;
+}
+:root[data-theme="light"] .matrix .cell.unknown {
+  background: #e9eef4;
+  color: #3f5569;
+  border-color: #6b7e8d;
+}
+:root[data-theme="light"] .matrix .zero { color: #586b7b; }
+:root[data-theme="light"] .claim,
+:root[data-theme="light"] .evidence-item { background: #f6f9fb; }
+:root[data-theme="light"] mark { background: #ffe5a3; color: #302d1b; }
+:root[data-theme="light"] dialog { box-shadow: 0 24px 80px #203f5538; }
+:root[data-theme="light"] dialog::backdrop { background: #152e456b; }
+
+/* The method diagram uses colored borders plus names; it never depends on color alone. */
+:root[data-theme="light"] .framework { border-color: #4e817f; }
+:root[data-theme="light"] .framework-node { background: #f6f9fb; }
+:root[data-theme="light"] .framework-node:hover { background: #eaf2f7; }
+:root[data-theme="light"] .toolkit-route {
+  background: #eaf0f5;
+  border-color: var(--control-line);
+}
+
+/* SVG paint attributes are overridden narrowly, preserving CAMEO fills and hit areas. */
+:root[data-theme="light"] #network-svg .graph-edge {
+  stroke: var(--graph-line);
+  stroke-opacity: .75;
+}
+:root[data-theme="light"] #network-svg .graph-edge.connected,
+:root[data-theme="light"] #network-svg .graph-edge:hover {
+  stroke: var(--teal);
+  stroke-opacity: 1;
+}
+:root[data-theme="light"] #network-svg .graph-node .node-dot {
+  stroke: var(--graph-outline);
+}
+:root[data-theme="light"] #network-svg .graph-node.isolate .node-dot {
+  fill: var(--graph-background);
+  stroke: var(--node-color, var(--graph-outline));
+  filter: drop-shadow(0 0 .7px var(--graph-outline));
+}
+:root[data-theme="light"] #network-svg[data-color-mode="neutral"] .graph-node .node-dot {
+  fill: var(--graph-neutral);
+  stroke: var(--graph-outline);
+}
+:root[data-theme="light"] #network-svg[data-color-mode="neutral"] .graph-node.isolate .node-dot {
+  fill: var(--graph-background);
+  stroke: var(--graph-neutral);
+  filter: none;
+}
+:root[data-theme="light"] #network-svg .graph-node:hover .node-dot,
+:root[data-theme="light"] #network-svg .graph-node:focus-visible .node-dot,
+:root[data-theme="light"] #network-svg .graph-node.selected .node-dot,
+:root[data-theme="light"] #network-svg .graph-node.active .node-dot {
+  stroke: #003e3a;
+  filter: drop-shadow(0 0 2px #ffffff);
+}
+:root[data-theme="light"] #network-svg .actor-label,
+:root[data-theme="light"] #network-svg .graph-node text {
+  fill: var(--graph-ink);
+  stroke: var(--graph-background);
+}
+:root[data-theme="light"] #network-svg > text { fill: var(--graph-muted); }
+:root[data-theme="light"] #network-svg #graph-content > circle[fill="none"] {
+  stroke: var(--graph-line);
+  stroke-opacity: .55;
+}
+:root[data-theme="light"] #size-key svg circle {
+  fill: var(--graph-neutral);
+  stroke: var(--graph-outline);
+}

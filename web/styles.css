@@ -3,6 +3,7 @@
   --background:#080f1b;--paper:#101c2d;--surface:#142339;--surface-hover:#1d324d;
   --ink:#eaf1fc;--muted:#a9bbd1;--navy:#d6e5fc;--teal:#6ce8d7;--teal-light:#153b3c;
   --blue:#99beff;--amber:#f3c578;--line:#344b68;--control-line:#526b8a;
+  --graph-background:#080f1b;--graph-ink:#eaf1fc;--graph-muted:#a9bbd1;--graph-line:#2b405b;--graph-neutral:#a9c3df;--graph-outline:#eaf1fc;--export-node-fill:#83a3c7;
   --radius:12px;--shadow:0 12px 36px #00000020;--mono:ui-monospace,"Cascadia Code",Consolas,monospace;
   font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   color:var(--ink);background:var(--background);font-size:16px;line-height:1.55;
@@ -159,3 +160,5 @@ body.graph-expanded{overflow:hidden}
  .graph-toolbar .label-control{flex-basis:auto}.size-key{gap:.5rem}
 }
 @media(prefers-reduced-motion:reduce){button,a,input,select,summary{transition:none}}
+.theme-toggle{min-width:119px;white-space:nowrap;gap:.45rem}.theme-toggle svg{width:17px;height:17px;flex:none}.theme-moon{display:none}
+:root[data-theme=light] .theme-sun{display:none}:root[data-theme=light] .theme-moon{display:block}

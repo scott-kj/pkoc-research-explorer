@@ -1,5 +1,13 @@
 # Verification scope
 
+## Optional light theme
+
+The original dark appearance remains the first-visit default. A locally saved light/dark preference applies before styles load and is available in the header and full-screen graph toolbar. Theme changes update presentation only, without rebuilding the network or resetting positions, orientation, filters or selections. Image captions, legends and graph colors follow the active theme; safe computed shadow outlines are retained for pale CAMEO isolates.
+
+Local Windows validation passed all **43 JavaScript tests** and **seven publication tests**. New export cases check the unchanged default dark footer, the light palette and rejection of unsafe palette values. The publication verifier checked all **50 artifact files**, the unchanged approved annotations, and exact parity of all six UNMIL networks. The existing Windows/Linux toolkit checks remain deployment gates; this change does not run new inference or repeat the historical full study.
+
+Browser checks confirmed dark on first visit, light and dark persistence after reload, synchronized keyboard controls, full-screen theme switching, unchanged graph DOM and selection across a switch, readable workflow/table views, and no horizontal page overflow at 375 and 1440 pixels. Light SVG/PNG downloads used the light background, readable labels/caption and degree key; the corrected SVG also retained the pale-isolate outline and CAMEO legend. The browser reported no application errors. The [Actions workflow](https://github.com/scott-kj/pkoc-research-explorer/actions/workflows/pages.yml) records commit-specific platform checks and deployment.
+
 ## November 12, 2026 explorer revision
 
 This revision adds Paper, Circle, deterministic Random and rotatable 3D sphere arrangements; degree-based node area; a combined CAMEO appearance toggle; visible isolate controls; an adjacent evidence inspector; current-view SVG/PNG export; a linked research framework; and the author's contact page. The interactive R view is retired, while the frozen R records and historical disclosure remain available. L is described as the executed model workflow and A as its human-reviewed continuation, consistently with the historical methods.
