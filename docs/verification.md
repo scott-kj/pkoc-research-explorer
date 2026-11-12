@@ -1,5 +1,11 @@
 # Verification scope
 
+## Interactive graph update
+
+The enlarged graph adds a separate presentation module for dragging, panning, zooming, label selection and full-screen exploration. It keeps copied coordinates apart from the immutable annotation bundle. Four new JavaScript checks cover fit bounds, pointer-centered zoom, zoomed movement and layout-copy integrity; all 24 JavaScript tests and seven publication checks pass locally. The six UNMIL projections retain exact parity.
+
+Browser checks exercised node dragging after zoom, arrow-key and button movement, position retention across role filters, reset, all-label selection, full-screen evidence dialogs, exit, navigation cleanup, and a 375-pixel layout without horizontal overflow. The application reported no console errors. These checks concern interface behavior, not inference accuracy. The Actions history records the published commit's Windows/Linux toolkit checks and deployment.
+
 The public site is a distribution of the verified UNMIL explorer. Its upstream source is commit 520c4fd8617bbae7775f1704503de0aab184f9ee, whose execution inputs match the previously tested commit 0f63c4b1c6b18c341af98b181422460ff6fc0968.
 
 Upstream Windows and Linux checks passed 213 Python tests, 17 JavaScript tests, five-draw smoke analysis, restored pinned environments and full 1,000-draw replays. All 70 reference comparisons passed on each OS; maximum applicable floating differences were 1e-14 and 2.8e-14 against the 1e-9 tolerance. Structural data remained exact. These are historical upstream checks, not new runs performed by this website repository.

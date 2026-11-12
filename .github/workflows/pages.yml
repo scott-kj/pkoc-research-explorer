@@ -81,7 +81,7 @@ jobs:
       - name: Check publication boundaries
         run: python -m unittest discover -s tools -p test_site.py -v
       - name: Check browser projection and safety logic
-        run: node --test web/tests/core.test.cjs
+        run: node --test web/tests/*.test.cjs
       - name: Build the reviewed static snapshot
         run: python tools/build_site.py --output site
       - name: Verify every deployed byte and exact projections

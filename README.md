@@ -16,6 +16,10 @@ The website opens directly to **Network construction**. CAMEO role colors, named
 - Download annotations, actor and edge tables, incidence lists, GraphML and view settings.
 - Load compatible JSON bundles or verified source text locally. The application does not upload these files or request API credentials.
 
+The larger graph supports mouse/touch dragging, background panning, zoom controls, and **Full screen**. Smart labels avoid overlaps; choose **All labels** to see every name or **Selected only** to focus on one actor. Names stay readable while zooming. Focus a node and use arrow keys to move it (Shift moves farther), or use the movement buttons in its evidence panel. **Fit** frames the current positions; **Reset layout** restores the saved arrangement for the current branch and scale.
+
+Dragged positions persist across filters within the current page session and are included in downloaded view settings. They do not change annotations, edges, weights, or scientific exports, and they are not restored from a URL after reload. Full-screen mode retains the evidence panel and dialogs; Escape or **Exit full screen** returns to the page. Browsers that restrict the Fullscreen API use a full-window workspace.
+
 Year cells count observations in published reports; blanks do not establish absence or tenure. Edges represent undirected co-occurrence, not interactions or alliances. The [data dictionary](docs/data-dictionary.md) explains identity, uncertainty, human decisions and source support.
 
 ## Try the reusable toolkit

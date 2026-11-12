@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="styles.css">
 <script defer src="bundle.js"></script>
 <script defer src="core.js"></script>
+<script defer src="graph.js"></script>
 <script defer src="app.js"></script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
@@ -79,10 +80,10 @@
         <label>CAMEO role<select id="network-role"><option value="">All roles</option></select></label>
         <details class="display-options"><summary>Display options</summary><div class="display-options-body"><p class="small muted">Only visibility changes. Downloads keep the complete constructed network.</p><label>Analytical code union<select id="network-code"><option value="">All codes</option></select></label><label>Minimum edge weight<input id="network-weight" type="number" min="1" value="1" step="1"></label><label class="checkbox-label"><input id="network-isolates" type="checkbox">Hide unconnected actors</label></div></details>
       </div>
-      <div class="network-layout">
+      <div id="network-layout" class="network-layout" aria-label="Network exploration workspace">
         <section class="panel graph-panel" aria-label="Network visualization">
-          <div class="graph-toolbar"><span id="graph-status"></span><div class="inline-actions"><button id="zoom-out" class="icon-button" aria-label="Zoom out">−</button><button id="zoom-in" class="icon-button" aria-label="Zoom in">+</button><button id="zoom-reset" class="button subtle">Fit</button></div></div>
-          <div id="graph-wrap"><svg id="network-svg" viewBox="0 0 900 640" role="group" aria-label="Constructed co-occurrence network"></svg></div>
+          <div class="graph-toolbar"><span id="graph-status" aria-live="polite"></span><div class="inline-actions"><label class="label-control">Actor labels<select id="graph-labels"><option value="smart">Smart labels</option><option value="all">All labels</option><option value="focus">Selected only</option></select></label><button id="zoom-out" class="icon-button" aria-label="Zoom out">−</button><button id="zoom-in" class="icon-button" aria-label="Zoom in">+</button><button id="zoom-reset" class="button subtle">Fit</button><button id="reset-layout" class="button subtle">Reset layout</button><button id="graph-fullscreen" class="button primary" aria-expanded="false" aria-controls="network-layout">Full screen</button></div></div>
+          <p id="graph-help" class="graph-help">Drag nodes to arrange · Drag background to pan · Ctrl + scroll to zoom · Arrow keys move a focused node</p><div id="graph-wrap"><svg id="network-svg" viewBox="0 0 900 640" role="group" aria-label="Constructed co-occurrence network" aria-describedby="graph-help"></svg></div>
           <div class="graph-footer"><p class="small-label">COLOR / CAMEO ROLE</p><div id="role-legend" class="role-legend" aria-label="CAMEO role legend"></div><p class="graph-caption">Colors distinguish single roles, multiple roles, and no recorded role. The role filter includes actors with several roles. <a href="#edge-heading">Browse the edge table</a>.</p></div>
         </section>
         <aside id="network-detail" class="panel network-detail" aria-label="Selected actor or edge"><h3>Follow a connection</h3><p>Choose a node or edge to inspect its evidence.</p></aside>

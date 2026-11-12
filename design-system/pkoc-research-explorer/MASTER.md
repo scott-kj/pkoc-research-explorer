@@ -12,6 +12,7 @@ Use a dark navy canvas, subtle grid and cyan accents. Keep the network as the la
 - Roles use names and colors. Multiple roles remain multiple; never invent a primary role. Colors and filters use report-associated roles, not specialties or the analytical union.
 - Construction controls change the graph; display controls change visibility. Retain complete constructed-network exports.
 - Keep raw hashes, internal UUIDs and raw provenance JSON out of normal UI. Downloads and validation retain exact identifiers and integrity checks.
+- Give the graph the full stage width and place evidence below it in normal view. Full-screen exploration puts evidence beside the graph on wide screens. Use screen-sized labels with halos, collision-aware smart labels, explicit all/selected modes, pointer dragging, keyboard movement and movement buttons. Layout coordinates are presentation state only.
 - Restrained color transitions; respect reduced motion. No external analytics, fonts, credential entry or model calls in the browser.
 
 Review at 375, 768, 1024 and 1440 CSS pixels. Check contrast, focus, wrapping, actor/edge drill-down, role filters, deep links, downloads, and local loading. Recompute all six study projections after shared-code changes.

@@ -50,4 +50,34 @@ dialog{width:min(900px,94vw);max-height:88vh;padding:0;border:1px solid var(--co
 @media(max-width:800px){.construction-panel{margin-bottom:0}.construction-content>.small{display:none}.construction-panel>summary{font-size:.9rem}.construction-controls select,.display-controls select,.display-controls input{font-size:16px}}
 
 /* Prioritize the graph on the landing view; keep the research introduction on other tabs. */
-body[data-view=network] .intro{display:none}body[data-view=network] .tabs{padding-top:.65rem}.network-heading h1{font-size:1.45rem;letter-spacing:-.025em;margin:0}#network-svg{height:clamp(340px,48vh,560px);max-height:none}.role-key{display:inline-flex;align-items:center;gap:.4rem;min-height:30px;background:#15263b;border-radius:5px;color:var(--muted);font-size:.7rem;padding:.25rem .5rem}.graph-node text{font-size:15px}@media(max-width:480px){#network-svg{height:340px}.network-heading h1{font-size:1.4rem}.role-key{min-height:32px}}
+body[data-view=network] .intro{display:none}body[data-view=network] .tabs{padding-top:.65rem}.network-heading h1{font-size:1.45rem;letter-spacing:-.025em;margin:0}#network-svg{height:clamp(540px,72vh,900px);max-height:none}.role-key{display:inline-flex;align-items:center;gap:.4rem;min-height:30px;background:#15263b;border-radius:5px;color:var(--muted);font-size:.7rem;padding:.25rem .5rem}
+/* Give the canvas the workspace width. Evidence remains below it until expanded. */
+.network-layout{grid-template-columns:minmax(0,1fr)}.network-detail{max-height:none;min-height:0}
+.network-detail .definition-grid{grid-template-columns:170px minmax(0,1fr)}.network-detail .button{width:auto}
+.network-detail .neighbor-button,.network-detail .unit-button{width:100%}
+.graph-toolbar .button,.graph-toolbar .icon-button{min-height:44px}.graph-toolbar .icon-button{min-width:44px}
+.graph-toolbar{gap:.6rem}.graph-toolbar .inline-actions{gap:.5rem}
+.label-control{display:flex;gap:.45rem;align-items:center;font-size:.75rem;color:var(--muted)}
+.label-control select{min-height:44px;background:var(--surface);color:var(--ink);border:1px solid var(--control-line);border-radius:6px;padding:.4rem;font:inherit}
+.graph-help{margin:0;padding:.55rem .8rem;border-bottom:1px solid var(--line);font-size:.72rem;color:var(--muted)}
+#network-svg{touch-action:none;user-select:none;cursor:grab}
+#network-svg.dragging,#network-svg.dragging .graph-node{cursor:grabbing}
+.graph-node{cursor:grab}.graph-node text{pointer-events:none;font-weight:600;stroke:#081321;stroke-linejoin:round}
+.graph-node.selected .node-dot,.graph-node.active .node-dot{stroke:#fff;stroke-width:3}
+.actor-label{fill:var(--ink);font-family:inherit;font-weight:600;paint-order:stroke;stroke:#081321;stroke-linejoin:round}
+.graph-edge.connected{stroke:var(--teal);stroke-opacity:.95}
+.node-move-controls{display:flex;flex-wrap:wrap;gap:.5rem;margin:.75rem 0}
+body.graph-expanded{overflow:hidden}
+#network-layout.expanded{position:fixed;inset:0;z-index:1000;width:100%;height:100dvh;max-width:none;box-sizing:border-box;background:var(--bg,#080f1b);padding:12px;display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:12px;overflow:auto;align-items:stretch}
+.expanded .graph-panel{display:grid;grid-template-rows:auto auto minmax(160px,1fr) auto;min-height:0;height:100%;overflow:hidden}
+.expanded #graph-wrap{min-height:0}.expanded #network-svg{height:100%;min-height:0;width:100%}
+.expanded .graph-footer{max-height:140px;overflow:auto}.expanded .network-detail{max-height:100%;overflow:auto}
+.expanded .network-detail .definition-grid{grid-template-columns:1fr}.expanded .graph-toolbar{position:sticky;top:0;background:var(--paper);z-index:2}
+.expanded .graph-caption a{display:none}
+@media(max-width:800px){
+ #network-svg{height:560px}.graph-toolbar>.inline-actions{width:100%}
+ #network-layout.expanded{grid-template-columns:1fr;grid-template-rows:minmax(480px,calc(100dvh - 24px)) auto;align-items:start}
+ .expanded .network-detail{max-height:none}.expanded .graph-footer{max-height:105px}
+ .label-control select{font-size:16px}.network-detail .definition-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){.network-heading h1{font-size:1.4rem}.role-key{min-height:32px}.graph-toolbar .inline-actions{gap:.5rem}.label-control{flex-basis:100%}.graph-toolbar .button{padding:.45rem .6rem}.graph-help{font-size:.7rem}}
