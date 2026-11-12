@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>PKOC Research Explorer</title>
+<link rel="stylesheet" href="styles.css">
+<script defer src="bundle.js"></script>
+<script defer src="core.js"></script>
+<script defer src="app.js"></script>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to research content</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="#view=workflow" aria-label="Research Explorer home"><span class="brand-mark" aria-hidden="true">↗</span><span>PKOC <strong>Research Explorer</strong></span></a>
+    <span id="dataset-kind" class="status-badge">Research data</span>
+    <div class="local-tools"><label class="button subtle file-button">Open local dataset<input id="bundle-file" type="file" accept=".json,application/json"></label><label class="button subtle file-button">Add local source text<input id="source-file" type="file" accept=".jsonl,.json,application/json"></label><button id="clear-source" class="button subtle" hidden>Clear source text</button></div>
+  </div>
+</header>
+<div class="shell">
+<section class="intro" aria-labelledby="site-title">
+  <div><p class="eyebrow">Reports → annotations → networks</p><h1 id="site-title">Follow the evidence.</h1><p id="dataset-title" class="lead">Loading the research dataset…</p><p class="intro-note">Inspect how annotation choices become a network. Trace an actor or edge back to the observations that support it.</p></div>
+  <aside class="dataset-card" aria-label="Dataset identity"><span class="small-label">CURRENT DATASET</span><strong id="dataset-id">Loading</strong><p id="dataset-detail"></p><p id="source-status" class="source-status">Full source prose is not embedded. Optional local text stays in this browser.</p></aside>
+</section>
+<p id="app-message" class="message" role="status" aria-live="polite"></p>
+<div id="error" class="error-panel" role="alert" hidden></div>
+<nav id="tabs" class="tabs" role="tablist" aria-label="Research explorer sections">
+<button role="tab" id="tab-workflow" data-view="workflow" aria-controls="view-workflow" aria-selected="true">Workflow</button>
+<button role="tab" id="tab-matrix" data-view="matrix" aria-controls="view-matrix" aria-selected="false">Actor × year</button>
+<button role="tab" id="tab-actors" data-view="actors" aria-controls="view-actors" aria-selected="false">Actor details</button>
+<button role="tab" id="tab-network" data-view="network" aria-controls="view-network" aria-selected="false">Network construction</button>
+<button role="tab" id="tab-reference" data-view="reference" aria-controls="view-reference" aria-selected="false">Reference audit</button>
+<button role="tab" id="tab-downloads" data-view="downloads" aria-controls="view-downloads" aria-selected="false">Reproduce & download</button>
+</nav>
+<main id="main" tabindex="-1">
+<section id="view-workflow" class="view" role="tabpanel" aria-labelledby="tab-workflow">
+  <div id="overview-metrics" class="metric-grid"></div>
+  <div class="section-heading"><div><p class="eyebrow">A measurement workflow</p><h2>Every network starts with decisions.</h2></div><button class="button primary" id="overview-network">Explore the network <span aria-hidden="true">→</span></button></div>
+  <p class="section-intro">The reports contain observations. Annotation identifies mentions and actors, then associates offices and actor-sector codes with report evidence. The network connects actors who occur in the same textual unit.</p>
+  <ol id="workflow-steps" class="workflow-grid"></ol>
+  <div class="two-columns">
+    <section class="panel"><h3>What a connection means</h3><p class="formula">W = BᵀB &nbsp; · &nbsp; diagonal = 0</p><p>Each actor is present at most once in a sentence, paragraph, or report. The edge weight counts distinct shared units. Repeated mentions inside one unit do not add weight.</p><p><strong>These are undirected co-occurrence edges.</strong> They do not establish interactions, alliances, or causal relationships.</p></section>
+    <section class="panel"><h3>What the study can establish</h3><div id="workflow-limitations"></div></section>
+  </div>
+</section>
+<section id="view-matrix" class="view" role="tabpanel" aria-labelledby="tab-matrix" hidden>
+  <div class="section-heading"><div><p class="eyebrow">Report observations</p><h2>Actors across publication years</h2></div></div>
+  <p class="section-intro">Counts show observations in the available reports. They do not establish continuous presence or tenure. A zero means no recorded observation in this corpus, not absence from the world.</p>
+  <div class="controls"><label>Annotation source<select id="matrix-workflow"></select></label><label class="grow">Find actor or alias<input id="matrix-search" type="search" placeholder="Search names, aliases, or actor IDs"></label><label>Count<select id="matrix-metric"><option value="mentions">Mentions</option><option value="reports">Distinct reports</option></select></label><label>Sort<select id="matrix-sort"><option value="total">Most observations</option><option value="name">Actor name</option></select></label></div>
+  <p id="matrix-status" class="result-count" aria-live="polite"></p><div class="legend"><span class="legend-dot"></span>Cell labels use native analytical code unions. <span class="muted">Role codes, specialties, and explicit support remain separate in the detail view.</span></div>
+  <details id="matrix-codebook" class="panel"></details><div class="table-scroll" tabindex="0" aria-label="Actor by year table, scroll horizontally for all years"><table id="matrix-table" class="matrix"><caption id="matrix-caption"></caption><thead></thead><tbody></tbody></table></div>
+  <p id="matrix-empty" class="empty-state" hidden>No actors match this search.</p>
+</section>
+<section id="view-actors" class="view" role="tabpanel" aria-labelledby="tab-actors" hidden>
+  <div class="section-heading"><div><p class="eyebrow">Names, claims, and evidence</p><h2>Actor records</h2></div></div>
+  <div class="controls"><label>Annotation source<select id="actor-workflow"></select></label><label class="grow">Find actor<input id="actor-search" type="search" placeholder="Search names, aliases, or actor IDs"></label></div>
+  <div class="actor-layout"><aside class="panel actor-directory"><h3 id="actor-list-title">Actors</h3><div id="actor-list" class="actor-list" aria-labelledby="actor-list-title"></div></aside><article id="actor-detail" class="panel actor-detail"></article></div>
+</section>
+<section id="view-network" class="view" role="tabpanel" aria-labelledby="tab-network" hidden>
+  <div class="section-heading"><div><p class="eyebrow">Binary incidence → weighted projection</p><h2>Construct the network</h2></div><button id="reset-network" class="button primary">Reset paper preset</button></div>
+  <p class="section-intro">Change the annotation source, context scale, or report selection to rebuild the incidence and edge tables. The resulting graph keeps the native roster, including isolates.</p>
+  <div class="controls construction-controls"><label>Annotation source<select id="network-workflow"></select></label><label>Context scale<select id="network-scale"><option value="sentence">Sentence</option><option value="paragraph" selected>Paragraph · primary study scale</option><option value="report">Report</option></select></label><label>From year<select id="network-from"></select></label><label>Through year<select id="network-to"></select></label></div>
+  <details class="panel report-selection"><summary>Select individual reports <span id="report-selection-count"></span></summary><div class="inline-actions"><button id="reports-all" class="button subtle">Select all reports</button><button id="reports-none" class="button subtle">Clear report selection</button></div><div id="report-options" class="report-options"></div></details>
+  <div id="network-metrics" class="metric-grid"></div><p id="network-scope" class="scope-note"></p>
+  <div class="controls display-controls"><span class="control-caption">DISPLAY ONLY</span><label class="grow">Actor name or alias<input id="network-search" type="search" placeholder="Find nodes without changing the constructed network"></label><label>Actor code<select id="network-code"><option value="">All codes</option></select></label><label>Minimum visible edge weight<input id="network-weight" type="number" min="1" value="1" step="1"></label><label class="checkbox-label"><input id="network-isolates" type="checkbox">Hide isolates</label></div>
+  <div class="network-layout"><section class="panel graph-panel"><div class="graph-toolbar"><span id="graph-status"></span><div class="inline-actions"><button id="zoom-out" class="icon-button" aria-label="Zoom out">−</button><button id="zoom-in" class="icon-button" aria-label="Zoom in">+</button><button id="zoom-reset" class="button subtle">Fit graph</button><a href="#edge-heading" class="small-link">Inspect edges as a table</a></div></div><div id="graph-wrap"><svg id="network-svg" viewBox="0 0 900 640" role="group" aria-label="Constructed co-occurrence network"></svg></div><p class="graph-caption">Position is a display aid, not a geographic location or relationship estimate. Select a node for its record or an edge for the contributing units.</p></section><aside id="network-detail" class="panel network-detail"><h3>Inspect the construction</h3><p>Choose a node or edge. Each edge can be traced to its distinct shared units.</p></aside></div>
+  <section class="panel edge-panel"><div class="section-heading compact"><h3 id="edge-heading" tabindex="-1">Visible edges</h3><div class="inline-actions"><button id="export-nodes" class="button subtle">Nodes CSV</button><button id="export-edges" class="button subtle">Edges CSV</button><button id="export-incidences" class="button subtle">Incidences JSON</button><button id="export-graphml" class="button subtle">GraphML</button><button id="export-view" class="button subtle">View settings JSON</button></div></div><p class="small muted">Downloads contain the complete constructed network. Display-only filters are recorded separately in view settings.</p><div class="table-scroll"><table id="edges-table"><caption>Edge weights and source-unit evidence</caption><thead><tr><th>Actor 1</th><th>Actor 2</th><th>Shared units</th><th>Evidence</th></tr></thead><tbody></tbody></table></div><div class="pagination"><button id="edges-prev" class="button subtle">Previous</button><span id="edges-page" aria-live="polite"></span><button id="edges-next" class="button subtle">Next</button></div></section>
+</section>
+<section id="view-reference" class="view" role="tabpanel" aria-labelledby="tab-reference" hidden><div class="section-heading"><div><p class="eyebrow">A bounded comparison</p><h2>Reference audit</h2></div></div><div id="reference-content"></div></section>
+<section id="view-downloads" class="view" role="tabpanel" aria-labelledby="tab-downloads" hidden><div class="section-heading"><div><p class="eyebrow">Inspect, verify, reproduce</p><h2>Take the evidence with you</h2></div></div><p class="section-intro">Structured data and settings connect this interface to reproducible code. Source text is a separately governed input. No model runs inside this website.</p><div id="download-cards" class="download-grid"></div><section class="panel"><h3>Reproduce these network views</h3><pre><code>python tools/build_site.py --output site
+python tools/verify_site.py site
+node web/tests/check_bundle.cjs site/bundle.json</code></pre><p>The public repository rebuilds this explorer and checks all six networks from the supplied structured annotations. Download the repository or clone it before running these commands.</p><div id="reproduce-links"></div></section><section class="panel"><h3>Explore compatible automated outputs</h3><p>Use Open local dataset to load a compatible model-only bundle. It stays in your browser. No LLM runs on this website, and new datasets do not inherit the UNMIL study's review.</p><p>The full statistical replay, manuscript build and reusable inference CLI remain in the separate research project. This public site distributes structured annotations and network exploration.</p></section><section class="panel"><h3>Provenance and limitations</h3><div id="provenance-detail"></div></section></section>
+</main>
+<footer><p>PKOC Research Explorer · Original code MIT; original annotations and documentation CC BY 4.0. Third-party text retains its own rights.</p><p>No application analytics, external fonts, or model credentials. Hosting is provided by GitHub Pages. Local files are read in this browser and are not uploaded.</p></footer>
+</div>
+<dialog id="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-header"><h2 id="dialog-title">Evidence</h2><button id="dialog-close" class="button subtle" aria-label="Close evidence dialog">Close <span aria-hidden="true">×</span></button></div><div id="dialog-body"></div></dialog>
+</body>
+</html>

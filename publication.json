@@ -1,0 +1,82 @@
+{
+  "author_instruction": "Publish the reviewed explorer",
+  "authorized": true,
+  "authorized_at_utc": "2026-11-12T03:58:53.479357+00:00",
+  "bundle_sha256": "15337171d6506f107483651a6f39e0ded18f59844e9433eeab3b66c988d81fce",
+  "manuscript_included": false,
+  "preserved_scientific_keys": [
+    "attributes",
+    "claims",
+    "correspondence",
+    "dataset",
+    "interventions",
+    "networks",
+    "nodes",
+    "occurrences",
+    "paragraphs",
+    "reference_units",
+    "reports",
+    "schema",
+    "sentences"
+  ],
+  "private_research_repository_visibility": "private",
+  "publication_changes": [
+    "Original short glossary replaces previous codebook descriptions.",
+    "Publication provenance added; private-preparation-only wording scoped to the withheld archive.",
+    "Public documentation links and network-only reproduction instructions replace private repository links."
+  ],
+  "raw_inference_logs_included": false,
+  "repository": "https://github.com/scott-kj/pkoc-research-explorer",
+  "requested_at_utc": "2026-11-12T03:47:51.533079+00:00",
+  "review": "docs/publication-review.md",
+  "schema": "pkoc-explorer-publication-v1",
+  "scientific_data_sha256": "167b54651f6d3ce8ef150ee76964a86ff20cfce38fcbdb842ba4d00413fec6cf",
+  "scope": "Public static explorer, structured UNMIL annotation/network data, original code and reader documentation only.",
+  "source_archive_included": false,
+  "source_archive_rights_status": "pending",
+  "status": "author_authorized_public_explorer",
+  "unresolved_source_report_symbols": [
+    "S/2004/428",
+    "S/2017/282"
+  ],
+  "upstream_bundle_sha256": "079d058f2d579f6186ad348f2d059bc586675fc340a6f0a9fdabdd35c7670041",
+  "upstream_commit": "520c4fd8617bbae7775f1704503de0aab184f9ee",
+  "upstream_files_copied_exactly": [
+    {
+      "bytes": 34420,
+      "path": "code/explorer_data.py",
+      "sha256": "63f3db331cd87f5c0c40a11d16309206bd354e01908ce276cab020ebffe7df79"
+    },
+    {
+      "bytes": 18217,
+      "path": "web/core.js",
+      "sha256": "8c686fcc58334a5a4114601fc75de39fec45d7ddddfc2ed4cb6eeef4dd8774fb"
+    },
+    {
+      "bytes": 17683,
+      "path": "web/styles.css",
+      "sha256": "d19a50f384f5c9f92e9305153da9eb55f7787fe2062db2b8041d9df8933796ce"
+    },
+    {
+      "bytes": 10870,
+      "path": "web/tests/core.test.cjs",
+      "sha256": "6936293af7052a5daeb5a42424bdca2c6a512fdd3029a1887a99fcb7af45abf1"
+    },
+    {
+      "bytes": 1533,
+      "path": "web/tests/check_bundle.cjs",
+      "sha256": "8580bc29e23c8e0c64b12dcf1bc7be098c092df159faf1d72b67eee9c3612f28"
+    },
+    {
+      "bytes": 10000,
+      "path": "data/source_manifest.csv",
+      "sha256": "fd25ec99c78844c83842b2f825f152df91a11429a7bd4ad5114091261ff12013"
+    },
+    {
+      "bytes": 1315,
+      "path": "LICENSE",
+      "sha256": "c60a6bca9b68ad3a901bb0f619bb19f11194dfaa082b82d6e26c6a76eb402cd3"
+    }
+  ],
+  "website": "https://scott-kj.github.io/pkoc-research-explorer/"
+}

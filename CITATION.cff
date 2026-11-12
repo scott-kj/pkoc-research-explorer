@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "Please cite this repository version and the accompanying unpublished manuscript."
+title: "PKOC Research Explorer: UNMIL annotation and network study"
+type: software
+authors:
+  - family-names: Kajohnkunchonlathorn
+    given-names: Krerkkaiwan
+repository-code: "https://github.com/scott-kj/pkoc-research-explorer"
+url: "https://github.com/scott-kj/pkoc-research-explorer"
+license: MIT
+preferred-citation:
+  type: unpublished
+  title: "LLM-Assisted Annotation for Political Network Research: Evidence from UN Peacekeeping Reports"
+  authors:
+    - family-names: Kajohnkunchonlathorn
+      given-names: Krerkkaiwan
+  year: 2026
+  notes: "Unpublished manuscript. Original data and written content are CC BY 4.0; third-party material is excluded."
