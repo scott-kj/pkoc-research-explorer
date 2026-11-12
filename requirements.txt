@@ -1,0 +1,2 @@
+# Python 3.12; the toolkit, demo and static builder use the standard library.
+# No pip packages are required. Node.js 22 is optional for browser-domain tests.

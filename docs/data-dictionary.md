@@ -133,3 +133,7 @@ Download files are `{workflow}_{scale}_nodes.csv`, `_edges.csv`, `_incidences.js
 ## Citation, licensing and publication
 
 Cite [CITATION.cff](../CITATION.cff), the exact repository version, the unpublished manuscript, and `manifest.json`/`bundle.json` hashes. Explain any filter or new inference settings. Original code is MIT; original annotation/documentation contributions are CC BY 4.0; source text, source-derived material, CAMEO, models and other third-party material are excluded from those grants. The separate publication.json record governs this structured-data distribution. The source archive remains private while the documented reuse questions remain unresolved.
+
+## Explorer role controls and current-view exports
+
+The network role legend and filter aggregate `attributes.role_codes` only over the selected reports in the selected workflow. Multiple roles retain a separate display category; an empty role set means not recorded in that scope. Specialties and the analytical union remain separate. These are display controls, not additional network exclusions. Current-view node CSV and GraphML downloads carry `role_codes` and `specialty_codes` from that report selection. Saved view settings include `display.cameo_role` and `role_scope: selected_reports`. Construction, isolates, edge weights and the frozen bundle are unchanged.

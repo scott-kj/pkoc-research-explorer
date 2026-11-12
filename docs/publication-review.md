@@ -23,3 +23,13 @@ Official UN URLs remain links to external source documents. Optional source text
 The scientific collections are compared exactly with the verified upstream bundle. Every deployed file is allowlisted and hash-checked; the annotation ZIP must contain the same rows as the visible explorer. The independent JavaScript projector reconstructs all six published networks with isolates and exact weights. Optional local-text tests verify Unicode codepoint offsets.
 
 publication.json records the reviewed bundle hash, scientific-data hash, upstream commit, scope and author authorization status. Deployment requires authorization plus passing checks. The full research repository remains private, and this publication does not create a manuscript release or a public exact-source archive.
+
+## Reusable software update
+
+The author subsequently instructed publication of the redesigned explorer and reusable LLM annotation-to-network toolkit in this public GitHub repository. The software update adds an explicit allowlist of portable pipeline modules, original prompts and schemas, case/provider examples, tests, local runtime configuration, and researcher setup instructions. It preserves the previously reviewed UNMIL bundle byte for byte.
+
+`protocol/codebook.json` contains the project's concise explanations and actor-coding adaptations, with attribution to the CAMEO manual; it is separate from the public explorer glossary. The manual itself is excluded. The two passage files under `examples/demo/text/` are newly written fictional examples, visibly labeled as such. Their document symbols are synthetic and do not link to real UN reports. A scripted loopback server supplies known replies for an engineering example; it does not perform LLM inference.
+
+The public source import excludes real report text, actual run directories, model/runtime assets, credentials, raw requests/responses, private journals and manuscript materials. Generated local demonstrations and publication-check receipts containing local paths remain outside the Git allowlist. The current software is maintained here; historical import hashes in publication.json describe the original transfer rather than current code identity. New run receipts bind the code actually executed.
+
+CAMEO roles and specialties in the interface are aggregated only over selected reports. Role visibility controls do not change the constructed network; exported nodes retain separate role and specialty fields. The change neither recodes the UNMIL study nor makes a new claim about model accuracy. See [verification scope](verification.md#public-toolkit-and-interface-update).

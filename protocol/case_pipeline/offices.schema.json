@@ -1,0 +1,88 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "claims": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "affiliation_literal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "capacity_status": {
+            "enum": [
+              "current",
+              "former",
+              "future",
+              "unspecified"
+            ],
+            "type": "string"
+          },
+          "claim_id": {
+            "type": "string"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "office_literal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "role_literal": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim_id",
+          "role_literal",
+          "office_literal",
+          "affiliation_literal",
+          "capacity_status",
+          "evidence_ids"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "person_id": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "SUPPORTED",
+        "INSUFFICIENT",
+        "CONFLICTING"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "request_id",
+    "person_id",
+    "status",
+    "claims",
+    "reason"
+  ],
+  "type": "object"
+}

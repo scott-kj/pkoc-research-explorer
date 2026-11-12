@@ -109,6 +109,13 @@ function project(bundle,{workflow='A',scale='paragraph',reportIds,referenceOnly=
  return {workflow,scale,report_ids:[...selected].sort(compare),reference_only:referenceOnly,nodes,edges,incidences,
   summary:{nodes:nodes.length,edges:edges.length,isolates:nodes.filter(n=>n.degree===0).length,total_weight:edges.reduce((v,e)=>v+e.weight,0),observed_units:incidences.length},exclusions};
 }
+const ROLE_LABELS={AGR:'Agriculture',BUS:'Business',COP:'Police',CRM:'Criminal activity',CVL:'Civilian',DEV:'Development',EDU:'Education',ELI:'Elite / former official',ENV:'Environment',GOV:'Government',HLH:'Health',HRI:'Human rights',IGO:'Intergovernmental',INS:'Insurgent',INT:'International',JUD:'Judiciary',LAB:'Labor',LEG:'Legislature',MED:'Media',MIL:'Military',OPP:'Opposition',PTY:'Political party',REB:'Rebel',REF:'Refugee / migration',SEP:'Separatist',SPY:'Intelligence',UAF:'Unspecified armed force',UIS:'Unidentified state'};
+const ROLE_COLORS={GOV:'#6ce8d7',IGO:'#80b3ff',ELI:'#c2a1ff',PTY:'#f7a2d3',LEG:'#f3c578',MIL:'#ff9b87',COP:'#9cd3ff',JUD:'#e6c89a',REB:'#edaf74',OPP:'#b9d48b',INS:'#ee8a9a',SEP:'#db9ab9',CVL:'#b7cadb',MED:'#b7d799',BUS:'#afd5c7',EDU:'#c5bcf5',HRI:'#e9b8de',DEV:'#8ed3cf',SPY:'#c6a5a0',CRM:'#cfafa5'};
+function rolePresentation(roles){const code=roles.length>1?'__multiple__':roles[0]||'__none__';return {code,label:code==='__multiple__'?'Multiple roles':code==='__none__'?'Not recorded':ROLE_LABELS[code]||code,color:code==='__multiple__'?'#f0e8ff':code==='__none__'?'#8a9cb5':ROLE_COLORS[code]||'#c1cddd'};}
+function actorCoding(index,{workflow,actorId,reportIds}={}){
+ const selected=reportIds===undefined?null:new Set(reportIds),rows=(index.attributes.get(key(workflow,actorId))||[]).filter(a=>selected===null||selected.has(a.report_id));
+ return {roles:unique(rows.flatMap(a=>list(a.role_codes))),specialties:unique(rows.flatMap(a=>list(a.specialty_codes))),union:unique(rows.flatMap(a=>list(a.cameo_codes))),primarySupport:unique(rows.flatMap(a=>list(a.primary_cameo_codes))),reports:unique(rows.map(a=>a.report_id))};
+}
 function yearRows(index,{workflow='A',search='',metric='mentions',order='total'}={}){
  const reports=[...index.reports.values()],years=unique(reports.map(r=>r.year==null?'Unknown':String(r.year)));
  const query=search.trim().toLocaleLowerCase(),rows=[];
@@ -135,10 +142,13 @@ function csv(rows,columns){
 }
 function xml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));}
 function graphml(network){
- const lines=['<?xml version="1.0" encoding="UTF-8"?>','<graphml xmlns="http://graphml.graphdrawing.org/xmlns">','<key id="name" for="node" attr.name="name" attr.type="string"/>','<key id="weight" for="edge" attr.name="weight" attr.type="int"/>','<graph id="'+xml(network.workflow+'_'+network.scale)+'" edgedefault="undirected">'];
- for(const n of network.nodes)lines.push('<node id="'+xml(n.actor_id)+'"><data key="name">'+xml(n.name)+'</data></node>');
- network.edges.forEach((e,i)=>lines.push('<edge id="e'+i+'" source="'+xml(e.source)+'" target="'+xml(e.target)+'"><data key="weight">'+e.weight+'</data></edge>'));
- return lines.concat(['</graph>','</graphml>']).join('\n')+'\n';
+ const keys=[['name','node','string'],['degree','node','int'],['strength','node','int'],['role_codes','node','string'],['specialty_codes','node','string'],['weight','edge','int']];
+ let out='<?xml version="1.0" encoding="UTF-8"?>\n<graphml xmlns="http://graphml.graphdrawing.org/xmlns">\n';
+ for(const [name,target,type]of keys)out+='<key id="'+name+'" for="'+target+'" attr.name="'+name+'" attr.type="'+type+'"/>\n';
+ out+='<graph id="cooccurrence" edgedefault="undirected">\n';
+ for(const n of network.nodes){out+='<node id="'+xml(n.actor_id)+'">';for(const field of ['name','degree','strength','role_codes','specialty_codes'])out+='<data key="'+field+'">'+xml(field.endsWith('_codes')?JSON.stringify(n[field]||[]):n[field])+'</data>';out+='</node>\n';}
+ network.edges.forEach((e,i)=>{out+='<edge id="e'+i+'" source="'+xml(e.source)+'" target="'+xml(e.target)+'"><data key="weight">'+e.weight+'</data></edge>\n';});
+ return out+'</graph></graphml>\n';
 }
 function highlightParts(text,start,end){
  const chars=Array.from(text);
@@ -157,5 +167,5 @@ async function verifySourceText(bundle,records,digest){
  assert(loaded.size>0,'No canonical paragraphs were supplied.');
  return loaded;
 }
-return {compare,key,unique,list,canonical,matchesTrustedStudy,baselineSelection,validateBundle,indexBundle,project,yearRows,csv,graphml,highlightParts,safeSourceUrl,verifySourceText};
+return {compare,key,unique,list,canonical,matchesTrustedStudy,baselineSelection,validateBundle,indexBundle,project,actorCoding,rolePresentation,ROLE_LABELS,yearRows,csv,graphml,highlightParts,safeSourceUrl,verifySourceText};
 });

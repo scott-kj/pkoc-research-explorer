@@ -1,0 +1,14 @@
+{
+  "schema_version": "pkoc-case-v1",
+  "case_id": "fictional-scripted-demo",
+  "title": "Fictional demonstration · scripted replies, no LLM",
+  "synthetic_fixture": true,
+  "mission": {"name": "DEMO", "aliases": ["Fictional Peace Mission"], "language": "en"},
+  "documents": [
+    {"symbol": "S/2099/1", "include": true, "eligibility_reason": "Original fictional engineering example; not a UN report", "report_date": "2099-01-10"},
+    {"symbol": "S/2099/2", "include": true, "eligibility_reason": "Original fictional engineering example; not a UN report", "report_date": "2099-02-10"}
+  ],
+  "cleaning": {"mode": "numbered", "truncate_annex": true, "stop_headings": [], "paragraph_limit": null},
+  "protocol_version": "pkoc-case-prompt-v1",
+  "literal_policy": {"max_name_codepoints": 160, "max_attribute_codepoints": 400}
+}

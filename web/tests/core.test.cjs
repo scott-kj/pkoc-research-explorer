@@ -2,6 +2,24 @@
 const test=require('node:test'),assert=require('node:assert/strict'),crypto=require('node:crypto');
 const C=require('../core.js');
 const hash=s=>crypto.createHash('sha256').update(s,'utf8').digest('hex');
+test('CAMEO roles remain distinct from specialties and follow selected reports',()=>{
+ const b=fixture();b.attributes.push({workflow:'A',actor_id:'a',report_id:'r2',role_codes:['MIL'],specialty_codes:['GOV'],cameo_codes:['GOV','MIL'],primary_cameo_codes:['MIL']});const index=C.indexBundle(b);
+ assert.deepEqual(C.actorCoding(index,{workflow:'A',actorId:'a',reportIds:['r1']}).roles,['GOV']);
+ assert.deepEqual(C.actorCoding(index,{workflow:'A',actorId:'a',reportIds:['r2']}).roles,['MIL']);
+ assert.deepEqual(C.actorCoding(index,{workflow:'A',actorId:'a',reportIds:['r2']}).specialties,['GOV']);
+ assert.deepEqual(C.actorCoding(index,{workflow:'A',actorId:'a',reportIds:[]}).roles,[]);
+ assert.equal(C.rolePresentation(C.actorCoding(index,{workflow:'A',actorId:'a'}).roles).code,'__multiple__');
+ assert.equal(C.rolePresentation(C.actorCoding(index,{workflow:'L',actorId:'a'}).roles).code,'__none__');
+});
+test('role presentation does not invent a primary role or change the projection',()=>{
+ const b=fixture(),before=C.project(b,{workflow:'A'}),index=C.indexBundle(b);const coding=C.actorCoding(index,{workflow:'A',actorId:'a'});
+ assert.equal(C.rolePresentation(coding.roles).label,'Government');assert.equal(C.rolePresentation(['GOV','MIL']).label,'Multiple roles');
+ assert.deepEqual(C.project(b,{workflow:'A'}),before);assert.deepEqual(b.attributes[0].role_codes,['GOV']);
+});
+test('GraphML can carry report-scoped roles and specialties without changing edges',()=>{
+ const graph=C.project(fixture(),{workflow:'A'});graph.nodes[0].role_codes=['GOV'];graph.nodes[0].specialty_codes=['MIL'];
+ const value=C.graphml(graph);assert.ok(value.includes('key="role_codes">[&quot;GOV&quot;]'));assert.ok(value.includes('key="specialty_codes">[&quot;MIL&quot;]'));assert.ok(value.includes('<data key="weight">2</data>'));
+});
 function fixture(){
  const b={schema:'pkoc-explorer-v1',dataset:{id:'fixture',title:'Domain fixture',kind:'frozen-study',rosters:['L','A']},
  reports:[{report_id:'r1',document_symbol:'S/2020/1',report_date:'2020-01-01',year:2020,official_url:'https://example.org/1'},{report_id:'r2',document_symbol:'S/2021/2',report_date:null,year:null,official_url:'https://example.org/2'}],

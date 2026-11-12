@@ -1,0 +1,52 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "relations": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "candidate_id": {
+            "type": "string"
+          },
+          "decision": {
+            "enum": [
+              "SAME",
+              "DIFFERENT",
+              "INSUFFICIENT"
+            ],
+            "type": "string"
+          },
+          "evidence_conflict": {
+            "type": "boolean"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "candidate_id",
+          "decision",
+          "evidence_conflict",
+          "evidence_ids",
+          "reason"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "request_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "request_id",
+    "relations"
+  ],
+  "type": "object"
+}

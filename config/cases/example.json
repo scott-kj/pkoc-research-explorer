@@ -1,0 +1,31 @@
+{
+  "schema_version": "pkoc-case-v1",
+  "case_id": "researcher-selected-example",
+  "title": "Researcher-selected PKOC reports (edit before use)",
+  "mission": {
+    "name": "UNAMSIL",
+    "aliases": [
+      "United Nations Mission in Sierra Leone"
+    ],
+    "language": "en"
+  },
+  "documents": [
+    {
+      "symbol": "S/2000/13",
+      "include": true,
+      "eligibility_reason": "Replace with the researcher-defined inclusion reason",
+      "report_date": "2000-01-11"
+    }
+  ],
+  "cleaning": {
+    "mode": "numbered",
+    "truncate_annex": true,
+    "stop_headings": [],
+    "paragraph_limit": null
+  },
+  "protocol_version": "pkoc-case-prompt-v1",
+  "literal_policy": {
+    "max_name_codepoints": 160,
+    "max_attribute_codepoints": 400
+  }
+}

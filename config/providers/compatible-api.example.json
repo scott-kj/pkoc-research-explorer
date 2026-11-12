@@ -1,0 +1,50 @@
+{
+  "schema_version": "pkoc-provider-v1",
+  "backend": "openai-compatible",
+  "model": "REPLACE_WITH_ADVERTISED_MODEL",
+  "endpoint": "https://api.example.invalid/v1",
+  "api_key_env": "PKOC_API_KEY",
+  "capabilities": {
+    "json_schema": true,
+    "seed": false,
+    "thinking": false,
+    "tokenization": "declared-upper-bound",
+    "tokens_per_utf8_byte_upper_bound": 1,
+    "chat_overhead_tokens": 1024
+  },
+  "stages": {
+    "extraction": {
+      "input_ceiling": 5888,
+      "max_tokens": 1024,
+      "context_size": 8192,
+      "token_margin": 256,
+      "temperature": 0
+    },
+    "resolution": {
+      "input_ceiling": 6000,
+      "max_tokens": 4096,
+      "context_size": 12288,
+      "token_margin": 256,
+      "temperature": 0
+    },
+    "offices": {
+      "input_ceiling": 6000,
+      "max_tokens": 4096,
+      "context_size": 12288,
+      "token_margin": 256,
+      "temperature": 0
+    },
+    "cameo": {
+      "input_ceiling": 6000,
+      "max_tokens": 4096,
+      "context_size": 12288,
+      "token_margin": 256,
+      "temperature": 0
+    }
+  },
+  "max_attempts": 2,
+  "timeout_seconds": 1800,
+  "models_path": "/models",
+  "chat_path": "/chat/completions",
+  "capability_note": "Example only. Verify every declared capability, tokenizer bound and chat overhead for the selected provider before execution."
+}

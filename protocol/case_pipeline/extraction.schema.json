@@ -1,0 +1,87 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "request_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "segments": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "missing_context": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "occurrences": {
+            "items": {
+              "additionalProperties": false,
+              "properties": {
+                "left_context": {
+                  "anyOf": [
+                    {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "right_context": {
+                  "anyOf": [
+                    {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "text": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "text",
+                "left_context",
+                "right_context"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "segment_id": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "complete",
+              "insufficient_context"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "segment_id",
+          "status",
+          "occurrences",
+          "missing_context"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "request_id",
+    "segments"
+  ],
+  "type": "object"
+}

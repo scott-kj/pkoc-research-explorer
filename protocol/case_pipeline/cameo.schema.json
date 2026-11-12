@@ -1,0 +1,153 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "assignments": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "affiliation_literal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "claim_id": {
+            "type": "string"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "office_literal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "role_codes": {
+            "items": {
+              "enum": [
+                "COP",
+                "GOV",
+                "INS",
+                "JUD",
+                "MIL",
+                "OPP",
+                "REB",
+                "SEP",
+                "SPY",
+                "UAF",
+                "LEG",
+                "PTY",
+                "AGR",
+                "BUS",
+                "CRM",
+                "CVL",
+                "DEV",
+                "EDU",
+                "ELI",
+                "ENV",
+                "HLH",
+                "HRI",
+                "LAB",
+                "MED",
+                "REF",
+                "INT",
+                "UIS",
+                "IGO"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "role_literal": {
+            "type": "string"
+          },
+          "specialty_codes": {
+            "items": {
+              "enum": [
+                "COP",
+                "GOV",
+                "INS",
+                "JUD",
+                "MIL",
+                "OPP",
+                "REB",
+                "SEP",
+                "SPY",
+                "UAF",
+                "LEG",
+                "PTY",
+                "AGR",
+                "BUS",
+                "CRM",
+                "CVL",
+                "DEV",
+                "EDU",
+                "ELI",
+                "ENV",
+                "HLH",
+                "HRI",
+                "LAB",
+                "MED",
+                "REF",
+                "INT",
+                "UIS",
+                "IGO"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "status": {
+            "enum": [
+              "SUPPORTED",
+              "INSUFFICIENT",
+              "CONFLICTING",
+              "OUTSIDE_SCOPE"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "claim_id",
+          "status",
+          "role_codes",
+          "specialty_codes",
+          "evidence_ids",
+          "reason",
+          "role_literal",
+          "office_literal",
+          "affiliation_literal"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "person_id": {
+      "type": "string"
+    },
+    "request_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "request_id",
+    "person_id",
+    "assignments"
+  ],
+  "type": "object"
+}

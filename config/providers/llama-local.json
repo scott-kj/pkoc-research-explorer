@@ -1,0 +1,61 @@
+{
+  "schema_version": "pkoc-provider-v1",
+  "backend": "llama-local",
+  "model": "Qwen3.6-35B-A3B-UD-Q4_K_M",
+  "model_sha256": "ac0e2c1189e055faa36eff361580e79c5bd6f8e76bffb4ce547f167d53e31a61",
+  "chat_template_sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+  "engine_build": "llama.cpp b10903 (481c65f09)",
+  "capabilities": {
+    "json_schema": true,
+    "seed": true,
+    "thinking": true,
+    "tokenization": "llama"
+  },
+  "stages": {
+    "extraction": {
+      "input_ceiling": 5888,
+      "max_tokens": 1024,
+      "context_size": 8192,
+      "token_margin": 256,
+      "temperature": 0,
+      "seed": 2060628,
+      "enable_thinking": false
+    },
+    "resolution": {
+      "input_ceiling": 6000,
+      "max_tokens": 4096,
+      "context_size": 12288,
+      "token_margin": 256,
+      "temperature": 0,
+      "seed": 2060628,
+      "enable_thinking": true
+    },
+    "offices": {
+      "input_ceiling": 6000,
+      "max_tokens": 4096,
+      "context_size": 12288,
+      "token_margin": 256,
+      "temperature": 0,
+      "seed": 2060628,
+      "enable_thinking": true
+    },
+    "cameo": {
+      "input_ceiling": 6000,
+      "max_tokens": 4096,
+      "context_size": 12288,
+      "token_margin": 256,
+      "temperature": 0,
+      "seed": 2060628,
+      "enable_thinking": true
+    }
+  },
+  "max_attempts": 2,
+  "timeout_seconds": 1800,
+  "startup_timeout_seconds": 600,
+  "runtime": {
+    "gpu_layers": 10,
+    "threads": 10,
+    "batch_size": 256,
+    "ubatch_size": 128
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "definitions": {
+    "AGR": "Agricultural activity or specialty.",
+    "BUS": "Business activity; does not replace an excluded multinational-corporation affiliation code.",
+    "COP": "Police officers, policing units and protective agencies.",
+    "CRM": "Criminal activity principally for profit or personal gratification, distinct from armed political opposition.",
+    "CVL": "Positively evidenced civilian capacity when no more specific role applies; do not default every unidentified person to CVL.",
+    "DEV": "Development activity or specialty.",
+    "EDU": "Education activity or specialty.",
+    "ELI": "Former government officials and other evidenced elite status; a former title alone does not establish current GOV.",
+    "ENV": "Environmental activity or specialty.",
+    "GOV": "Executive and government administration; the manual also includes governing parties. Project rule: party membership alone does not establish a person holding executive office; record PTY instead.",
+    "HLH": "Health or social-welfare activity or specialty.",
+    "HRI": "Human-rights activity or specialty.",
+    "IGO": "International or regional inter-governmental organization. For a person, assign IGO only for an explicitly evidenced office, employment, appointment or representative capacity in such an organization, including the United Nations; attendance at its meeting alone is insufficient.",
+    "INS": "Armed political opposition seeking to overthrow the national government.",
+    "INT": "An evidenced international actor that cannot be further specified by the evidence as an international organization/movement/company or state actor. Not a blanket replacement for excluded categories.",
+    "JUD": "Judges, courts and judicial functions.",
+    "LAB": "Organized labor or labor-related activity.",
+    "LEG": "Legislative membership or office. Project adopts the manual's legislature-specific coding option.",
+    "MED": "Media or journalism activity.",
+    "MIL": "State military personnel and forces; requires evidenced state affiliation.",
+    "OPP": "Political opposition or anti-government political activity; does not imply violence.",
+    "PTY": "Membership in a political party; alone does not establish executive or legislative office.",
+    "REB": "Armed political opposition with unspecified or limited aims; prefer INS or SEP when their specific aims are evidenced.",
+    "REF": "Refugee status or refugee/migration-related activity.",
+    "SEP": "Armed political opposition seeking separation of a region from its country.",
+    "SPY": "State intelligence personnel and services.",
+    "UAF": "Evidenced armed forces with unclear state/rebel alignment or neither alignment; not a generic unknown-person code.",
+    "UIS": "An evidenced state actor acting for a state whose identity is not supplied. The person may be named; the state is unidentified."
+  },
+  "international_allowed": [
+    "IGO",
+    "INT",
+    "UIS"
+  ],
+  "international_excluded": [
+    "IMG",
+    "NGO",
+    "NGM",
+    "MNC",
+    "all organization-specific composite codes including IGOUNO"
+  ],
+  "reference": "https://github.com/openeventdata/Dictionaries/blob/master/CAMEO.Manual.1.1b3.tex",
+  "rules": [
+    "Code the evidenced capacity of this person, not nearby people or institutions. Attendance at an organization meeting does not establish affiliation.",
+    "An evidenced United Nations or other inter-governmental organization appointment can receive IGO. Known NGO, international movement, international militarized group or multinational-company affiliations remain OUTSIDE_SCOPE for international coding, not automatically INT. Preserve the literal affiliation. Organization-specific composite codes, including IGOUNO, are not outputs.",
+    "Return compatible role_codes and specialty_codes separately. A health minister has GOV role with HLH specialty, not independent Government and Others roles.",
+    "A specialty can itself be a role when it describes the standalone evidenced capacity (e.g. a journalist MED).",
+    "For an explicitly former government official, ELI describes the current former-official observation. A separate dated past-tenure claim can receive GOV for its historical interval.",
+    "Code each claim at its stated temporal scope. Python, not the model, checks whether that scope covers each report-date target.",
+    "Opposition is not necessarily armed. Do not infer overthrow or secession goals from generic rebel membership.",
+    "Do not output UNK as a CAMEO code; unsupported claims use INSUFFICIENT and empty arrays."
+  ],
+  "source": "CAMEO.Manual.1.1b3; project adaptations explicitly identified",
+  "version": "r31-production-v5-20261006"
+}

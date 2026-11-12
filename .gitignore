@@ -6,3 +6,9 @@ __pycache__/
 Thumbs.db
 .env
 *.log
+/runs/
+/local/
+/.venv/
+/.venv-*/
+/local-sources/
+*.gguf

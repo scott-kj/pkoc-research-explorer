@@ -31,7 +31,7 @@
   "review": "docs/publication-review.md",
   "schema": "pkoc-explorer-publication-v1",
   "scientific_data_sha256": "167b54651f6d3ce8ef150ee76964a86ff20cfce38fcbdb842ba4d00413fec6cf",
-  "scope": "Public static explorer, structured UNMIL annotation/network data, original code and reader documentation only.",
+  "scope": "Public static explorer, structured UNMIL annotation/network data, reusable annotation-to-network software, original fictional example, and setup/method documentation.",
   "source_archive_included": false,
   "source_archive_rights_status": "pending",
   "status": "author_authorized_public_explorer",
@@ -78,5 +78,9 @@
       "sha256": "c60a6bca9b68ad3a901bb0f619bb19f11194dfaa082b82d6e26c6a76eb402cd3"
     }
   ],
-  "website": "https://scott-kj.github.io/pkoc-research-explorer/"
+  "website": "https://scott-kj.github.io/pkoc-research-explorer/",
+  "software_scope_authorized": "Public reusable annotation-to-network toolkit, original fictional example, setup documentation, and redesigned explorer; scientific UNMIL snapshot unchanged.",
+  "historical_transfer_note": "upstream_files_copied_exactly records the original transfer only; maintained public software may subsequently change. The UNMIL bundle and scientific-data digests remain binding.",
+  "software_publication_instruction": "Publish the reusable LLM annotation-to-network toolkit on GitHub, with clear setup instructions and an example so other researchers can run it on their own PKOC reports.",
+  "software_review": "docs/publication-review.md#reusable-software-update"
 }
