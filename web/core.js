@@ -75,7 +75,36 @@ function indexBundle(bundle){
  for(const o of bundle.occurrences){const k=key(o.workflow,o.actor_id);if(!occurrences.has(k))occurrences.set(k,[]);occurrences.get(k).push(o);}
  for(const a of bundle.attributes){const k=key(a.workflow,a.actor_id);if(!attributes.has(k))attributes.set(k,[]);attributes.get(k).push(a);}
  for(const c of bundle.claims){const k=key(c.workflow,c.actor_id);if(!claims.has(k))claims.set(k,[]);claims.get(k).push(c);}
- return {bundle,reports,nodes,paragraphs,sentences,occurrences,attributes,claims};
+ return {bundle,reports,nodes,paragraphs,sentences,occurrences,attributes,claims,interventionAssociations:associateInterventions(bundle)};
+}
+function associateInterventions(bundle){
+ const byOccurrence=new Map(bundle.occurrences.map(o=>[key(o.workflow,o.occurrence_id),o]));
+ const byActor=new Map(),records=[],corpusOnly=[];
+ for(const [recordIndex,record]of bundle.interventions.entries()){
+  const ids=unique([record?.candidate_id,...(Array.isArray(record?.native_ids)?record.native_ids:[])].filter(id=>typeof id==='string'&&id.length>0));
+  const matchedOccurrences=[],actorsByKey=new Map();
+  // IDs are scoped to their branch. A shared ID, name, or paragraph alone is
+  // never evidence that two actor identities are equivalent.
+  if(typeof record?.paragraph_id==='string'&&record.paragraph_id.length)for(const workflow of bundle.dataset.rosters){
+   if(record.workflow!=null&&record.workflow!==workflow)continue;
+   for(const id of ids){
+    const occurrence=byOccurrence.get(key(workflow,id));
+    if(!occurrence||occurrence.paragraph_id!==record.paragraph_id)continue;
+    matchedOccurrences.push(occurrence);
+    if(occurrence.actor_id!=null)actorsByKey.set(key(workflow,occurrence.actor_id),{workflow,actor_id:occurrence.actor_id});
+   }
+  }
+  matchedOccurrences.sort((a,b)=>compare(a.workflow,b.workflow)||compare(a.occurrence_id,b.occurrence_id));
+  const actors=[...actorsByKey.values()].sort((a,b)=>compare(a.workflow,b.workflow)||compare(a.actor_id,b.actor_id));
+  const association={record,recordIndex,matchedOccurrences,actors,shared:actors.length>1,status:actors.length?'linked':matchedOccurrences.length?'unresolved':'unmatched'};
+  records.push(association);
+  if(!actors.length)corpusOnly.push(association);
+  for(const actor of actors){const k=key(actor.workflow,actor.actor_id);if(!byActor.has(k))byActor.set(k,[]);byActor.get(k).push(association);}
+ }
+ return {records,byActor,corpusOnly};
+}
+function actorInterventions(index,{workflow,actorId}={}){
+ return index.interventionAssociations.byActor.get(key(workflow,actorId))||[];
 }
 function project(bundle,{workflow='A',scale='paragraph',reportIds,referenceOnly=false}={}){
  assert(['sentence','paragraph','report'].includes(scale),'Unsupported network scale.');
@@ -114,7 +143,12 @@ const ROLE_COLORS={GOV:'#6ce8d7',IGO:'#80b3ff',ELI:'#c2a1ff',PTY:'#f7a2d3',LEG:'
 function rolePresentation(roles){const code=roles.length>1?'__multiple__':roles[0]||'__none__';return {code,label:code==='__multiple__'?'Multiple roles':code==='__none__'?'Not recorded':ROLE_LABELS[code]||code,color:code==='__multiple__'?'#f0e8ff':code==='__none__'?'#8a9cb5':ROLE_COLORS[code]||'#c1cddd'};}
 function actorCoding(index,{workflow,actorId,reportIds}={}){
  const selected=reportIds===undefined?null:new Set(reportIds),rows=(index.attributes.get(key(workflow,actorId))||[]).filter(a=>selected===null||selected.has(a.report_id));
- return {roles:unique(rows.flatMap(a=>list(a.role_codes))),specialties:unique(rows.flatMap(a=>list(a.specialty_codes))),union:unique(rows.flatMap(a=>list(a.cameo_codes))),primarySupport:unique(rows.flatMap(a=>list(a.primary_cameo_codes))),reports:unique(rows.map(a=>a.report_id))};
+ const observedReports=unique((index.occurrences.get(key(workflow,actorId))||[]).filter(o=>selected===null||selected.has(o.report_id)).map(o=>o.report_id));
+ const observed=new Set(observedReports),attributeReports=unique(rows.map(a=>a.report_id)),attributes=new Set(attributeReports);
+ const codedReportsFor=field=>unique(rows.filter(a=>observed.has(a.report_id)&&list(a[field]).length>0).map(a=>a.report_id));
+ return {roles:unique(rows.flatMap(a=>list(a.role_codes))),specialties:unique(rows.flatMap(a=>list(a.specialty_codes))),union:unique(rows.flatMap(a=>list(a.cameo_codes))),primarySupport:unique(rows.flatMap(a=>list(a.primary_cameo_codes))),reports:attributeReports,
+  observedReports,attributeReports,codedReports:codedReportsFor('cameo_codes'),roleReports:codedReportsFor('role_codes'),primarySupportReports:codedReportsFor('primary_cameo_codes'),
+  orphanAttributeReports:attributeReports.filter(id=>!observed.has(id)),observedWithoutAttributeReports:observedReports.filter(id=>!attributes.has(id))};
 }
 function yearRows(index,{workflow='A',search='',metric='mentions',order='total'}={}){
  const reports=[...index.reports.values()],years=unique(reports.map(r=>r.year==null?'Unknown':String(r.year)));
@@ -142,12 +176,12 @@ function csv(rows,columns){
 }
 function xml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));}
 function graphml(network){
- const keys=[['name','node','string'],['degree','node','int'],['strength','node','int'],['role_codes','node','string'],['specialty_codes','node','string'],['weight','edge','int']];
+ const keys=[['name','node','string'],['degree','node','int'],['strength','node','int'],['role_codes','node','string'],['specialty_codes','node','string'],['weight','edge','int'],['unit_ids','edge','string']];
  let out='<?xml version="1.0" encoding="UTF-8"?>\n<graphml xmlns="http://graphml.graphdrawing.org/xmlns">\n';
  for(const [name,target,type]of keys)out+='<key id="'+name+'" for="'+target+'" attr.name="'+name+'" attr.type="'+type+'"/>\n';
  out+='<graph id="cooccurrence" edgedefault="undirected">\n';
  for(const n of network.nodes){out+='<node id="'+xml(n.actor_id)+'">';for(const field of ['name','degree','strength','role_codes','specialty_codes'])out+='<data key="'+field+'">'+xml(field.endsWith('_codes')?JSON.stringify(n[field]||[]):n[field])+'</data>';out+='</node>\n';}
- network.edges.forEach((e,i)=>{out+='<edge id="e'+i+'" source="'+xml(e.source)+'" target="'+xml(e.target)+'"><data key="weight">'+e.weight+'</data></edge>\n';});
+ network.edges.forEach((e,i)=>{const evidence='['+list(e.unit_ids).map(id=>JSON.stringify(id)).join(', ')+']';out+='<edge id="e'+i+'" source="'+xml(e.source)+'" target="'+xml(e.target)+'"><data key="weight">'+e.weight+'</data><data key="unit_ids">'+xml(evidence)+'</data></edge>\n';});
  return out+'</graph></graphml>\n';
 }
 function highlightParts(text,start,end){
@@ -167,5 +201,5 @@ async function verifySourceText(bundle,records,digest){
  assert(loaded.size>0,'No canonical paragraphs were supplied.');
  return loaded;
 }
-return {compare,key,unique,list,canonical,matchesTrustedStudy,baselineSelection,validateBundle,indexBundle,project,actorCoding,rolePresentation,ROLE_LABELS,yearRows,csv,graphml,highlightParts,safeSourceUrl,verifySourceText};
+return {compare,key,unique,list,canonical,matchesTrustedStudy,baselineSelection,validateBundle,indexBundle,associateInterventions,actorInterventions,project,actorCoding,rolePresentation,ROLE_LABELS,yearRows,csv,graphml,highlightParts,safeSourceUrl,verifySourceText};
 });

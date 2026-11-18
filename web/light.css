@@ -15,6 +15,7 @@
   --line: #bdcbd5;
   --control-line: #6b7e8d;
   --shadow: 0 12px 36px #203f5510;
+  --glow: 0 0 42px #24788b0c;
   --graph-background: #f8fbfd;
   --graph-ink: #132b40;
   --graph-muted: #485f72;
@@ -94,6 +95,7 @@
 :root[data-theme="light"] input[type="checkbox"] { accent-color: var(--teal); }
 :root[data-theme="light"] .data-tools > summary:hover,
 :root[data-theme="light"] .display-options > summary:hover,
+:root[data-theme="light"] .view-options > summary:hover,
 :root[data-theme="light"] .graph-export > summary:hover {
   background: var(--surface-hover);
   border-color: var(--control-line);
@@ -102,6 +104,9 @@
 /* Panels, menus and fullscreen inherit light tokens; override the legacy explicit canvas colors. */
 :root[data-theme="light"] .graph-panel,
 :root[data-theme="light"] #graph-wrap { background-color: var(--graph-background); }
+:root[data-theme="light"] .graph-panel { border-color: #8ca2b2; }
+:root[data-theme="light"] .intro-dataset strong { color: var(--navy); }
+:root[data-theme="light"] .intro-actions .button.primary { box-shadow: 0 6px 22px #006c6518; }
 :root[data-theme="light"] #graph-wrap {
   background-image: radial-gradient(#b7c8d366 1px, transparent 1px);
 }

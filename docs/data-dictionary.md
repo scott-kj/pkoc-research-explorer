@@ -23,6 +23,8 @@ IDs are stable within the frozen release or a particular hash-bound case run. An
 
 `dataset` identifies the bundle (`id`, `title`), `kind` (`frozen-study` or `model-only`), available `rosters`, coordinate policy and interpretation limits. Frozen UNMIL includes a report-year observation policy and the explicit R scope. `provenance` records input/code hash entries and limitations. New cases may add coverage/status summaries and flags such as `human_reviewed:false`; they must not include native request logs, credentials or local paths.
 
+The public dataset ID `unmil-revision-04` identifies the frozen scientific snapshot. It is not a manuscript version number. Documentation aligned on 18 November 2026 follows manuscript Revision 4.2 without changing that ID, the `pkoc-explorer-v1` schema, or any scientific collection.
+
 | Report field | Definition |
 |---|---|
 | `report_id` | Stable source/document identifier referenced by every paragraph and occurrence. |
@@ -106,13 +108,19 @@ Attributes appear in `attributes` and `downloads/attributes.csv`, uniquely keyed
 | `role`, `role_set`, `primary_role_set`, `office_claim_count` | Historical broad-role summary, full/primary role sets and claim count. |
 | `provenance`, `report_date` | Recorded branch provenance and report observation date. |
 
+For coverage, one attribute row is one actor-report target. A nonempty `primary_cameo_codes` set marks a target meeting its branch's explicit-source-support rule. The frozen A branch has 280 targets; 238 meet that rule and cover 96 distinct actors. All 117 A profiles completed recorded review, a different denominator. Count covered actors only within the 238 linked rows. The corresponding counts are 278 linked targets out of 292 for L, covering 116 actors, and 1 out of 22 for R, covering one actor.
+
+These fields describe recorded evidence coverage, not independently established semantic accuracy. The branch-specific support rules differ. Office and affiliation fields have not been systematically validated; a nonempty value, completed review or mechanical source match does not supply that validation.
+
 The 28-code public glossary is exposed as `{code,label,definition}`. It provides newly written short explanations of CAMEO actor identifiers; it does not distribute the manual. Analytical codes and assignments are unchanged.
 
 ## Human intervention and branch correspondence
 
 `interventions` / `downloads/interventions.csv` contain the available safe fields from `human_changes.csv`: `candidate_id`, `decision`, `human_added`, `boundary_changed`, `native_ids`, and `paragraph_id`. They show which saved candidate decisions are available; they do not constitute a complete session journal or a claim about annotation time. They are empty for new automated cases.
 
-`correspondence` contains the frozen L/A span-based mapping: `L_actor`, `L_name`, `A_actor`, `A_name`, `shared_spans`, `one_to_one`. This is an analytical mapping, not a license to merge native rosters. A continues from compatible L proposals; the correspondence does not make the branches independent. `reference_units` lists the 120 paragraph IDs defining the historical R comparison scope across six reports. The records remain in downloads; the website does not offer an interactive R branch.
+`correspondence` contains the frozen L/A span-based mapping: `L_actor`, `L_name`, `A_actor`, `A_name`, `shared_spans`, `one_to_one`. This is an analytical mapping, not a license to merge native rosters. A continues from compatible L proposals; the correspondence does not make the branches independent or establish a causal effect of human review. `reference_units` lists the 120 paragraph IDs defining the historical R comparison scope across six reports. R contains 25 mentions of 15 people and was produced by the same researcher with prior exposure. Two eligible mentions documented as missing remain outside the frozen R ledger; do not silently add them or change its scored denominator. The records remain in downloads; the website does not offer an interactive R branch.
+
+Intervention counts do not measure time saved. The available records do not establish measured labor or cost savings against a complete manual workflow.
 
 ## Network products
 
@@ -138,4 +146,4 @@ Cite [CITATION.cff](../CITATION.cff), the exact repository version, the unpublis
 
 The network role legend and filter aggregate `attributes.role_codes` only over the selected reports in the selected workflow. Multiple roles retain a separate display category; an empty role set means not recorded in that scope. Specialties and the analytical union remain separate. These are display controls, not additional network exclusions. The CAMEO appearance toggle changes colors and the legend, preserving any selected role filter. Current-view node CSV and GraphML downloads carry `role_codes` and `specialty_codes` from that report selection. Saved view settings include `display.cameo_role` and `role_scope: selected_reports`. Construction, isolates, edge weights and the frozen bundle are unchanged.
 
-Paper, Circle, Random and 3D sphere are alternative graph presentations. Node size reflects degree in the complete constructed network; hide-isolate and other visibility controls do not recalculate degree. Downloaded view settings keep presentation separate from construction. SVG and PNG images capture the current visible graph, while node/edge tables, incidences and GraphML retain the full constructed network, including hidden actors. See the [presentation contract](explorer-data-contract.md#graph-presentation-and-image-exports).
+Study coordinates, Circle, Random and 3D sphere are alternative graph presentations. Study coordinates retains the historical `paper` setting in saved URLs and view metadata, and uses the frozen positions without claiming an identical manuscript figure. Node size reflects degree in the complete constructed network; hide-isolate and other visibility controls do not recalculate degree. Downloaded view settings keep presentation separate from construction. SVG and PNG images capture the current visible graph, while node/edge tables, incidences and GraphML retain the full constructed network, including hidden actors. See the [presentation contract](explorer-data-contract.md#graph-presentation-and-image-exports).

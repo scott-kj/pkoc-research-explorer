@@ -2,6 +2,8 @@
 
 The PKOC UNMIL Network Explorer explains how annotation and identity decisions affect a political network measured from reports. Two questions organize the documented study: how do automated and human-reviewed annotations compare, and which descriptions of the represented actors remain stable or change? The second question considers prominence, membership and connectivity, and institutional representation. It does not treat network similarity as proof of annotation accuracy.
 
+This explanation follows manuscript Revision 4.2, dated 18 November 2026. That writing revision preserves the scientific release `20261109_review_v1` and the original annotation freeze `20261103_completed_v1`. The public bundle remains unchanged; alignment of the explanation does not create a new dataset or publish the manuscript.
+
 A source observation, a model prediction, a saved human decision, a coding assumption and a network edge are different objects. Stable identifiers connect these objects without treating them as equally certain. The framework below separates shared preparation, the executed model workflow, its human-reviewed continuation, and common network measurement.
 
 ```mermaid
@@ -53,6 +55,22 @@ Office and affiliation literals, capacity, role codes, specialty codes, the anal
 
 The [reusable annotation pipeline](toolkit.md) is maintained separately: explicitly selected English extraction text → preparation → automated annotation → L-only ledger → three co-occurrence projections → compatible explorer bundle. New runs preserve failures and uncertainty and do not inherit historical UNMIL amendments, A decisions or R observations. They are model-only outputs rather than newly human-reviewed data. The [fictional runnable example](quickstart.md) demonstrates the software without an inference service. The small UNAMSIL run was a software engineering check, not another study.
 
+## Evidence coverage and validation limits
+
+A target is one native actor in one report. A source-linked target has a nonempty `attributes.primary_cameo_codes` set under that branch's recorded evidence rule. Count distinct `actor_id` values among those targets to obtain the number of actors covered. These denominators answer different questions:
+
+| Branch | Native actor-report targets | Source-linked targets | Actors covered by those linked targets |
+| --- | ---: | ---: | ---: |
+| L | 292 | 278 | 116 |
+| A | 280 | 238 | 96 |
+| R | 22 | 1 | 1 |
+
+All 117 A profiles completed recorded review, while its 238 source-linked targets cover 96 actors. The 96 therefore describes the linked subset, not every actor represented by the 280 native targets. A profile may contain a code without the required report-specific evidence link. L and A use different evidence-linkage mechanisms, so their coverage rates do not rank factual accuracy.
+
+Literal office and affiliation fields have not received systematic field-level validation. Mechanical span matching and saved evidence links establish where a recorded claim points; independent assessment is still needed to establish whether the identity, office or coding is correct. The exposed R sample and its two documented omissions limit task-agreement interpretation. A's continuation from L also prevents a causal estimate of the effect of human review.
+
+Recorded interventions and review intervals do not provide a complete manual-workflow comparison. The study establishes neither measured labor/cost savings nor a general accuracy advantage for LLM annotation. Independent annotation on held-out source material and a measured manual comparison remain further empirical work.
+
 ## Network construction
 
 For textual unit u and actor a, B[u,a] is one if the actor has at least one eligible occurrence in that unit, otherwise zero. W = BᵀB with the diagonal removed. An edge weight counts distinct shared units. Repeated mentions within one unit count once; all native roster actors remain, including isolates.
@@ -66,7 +84,7 @@ Unassigned identities are excluded from projection. Rows without a sentence ID c
 
 Construction controls change reports, years or scale and rebuild the network. Display-only controls change visible marks without changing network exports. Filtered constructions are exploratory. Advanced statistics and communities are saved baseline outputs and are suppressed outside their supported complete-network scope. Edges mean undirected co-occurrence, not interactions or alliances.
 
-The explorer's Paper, Circle, Random and 3D sphere layouts change positions only. Node size represents degree in the constructed network. Hide isolates, label choices, CAMEO appearance and visibility filters do not recalculate that degree or alter the network. The CAMEO display uses report-associated role codes for the selected reports, with specialties and analytical unions kept separate. PNG and SVG downloads illustrate the current visible graph; CSV, incidences and GraphML preserve the complete constructed network, including hidden isolates.
+The explorer's Study coordinates, Circle, Random and 3D sphere layouts change positions only. Study coordinates retains the saved arrangement, while the web display uses its own degree-size mapping, labels and framing; it is not an identical rendering of a manuscript figure. Node size represents degree in the constructed network. Hide isolates, label choices, CAMEO appearance and visibility filters do not recalculate that degree or alter the network. The CAMEO display uses report-associated role codes for the selected reports, with specialties and analytical unions kept separate. PNG and SVG downloads illustrate the current visible graph; CSV, incidences and GraphML preserve the complete constructed network, including hidden isolates.
 
 ## Reproduce and interpret
 

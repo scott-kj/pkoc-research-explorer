@@ -20,6 +20,77 @@ test('GraphML can carry report-scoped roles and specialties without changing edg
  const graph=C.project(fixture(),{workflow:'A'});graph.nodes[0].role_codes=['GOV'];graph.nodes[0].specialty_codes=['MIL'];
  const value=C.graphml(graph);assert.ok(value.includes('key="role_codes">[&quot;GOV&quot;]'));assert.ok(value.includes('key="specialty_codes">[&quot;MIL&quot;]'));assert.ok(value.includes('<data key="weight">2</data>'));
 });
+test('GraphML retains the ordered supporting unit IDs as a safe JSON string',()=>{
+ const graph=C.project(fixture(),{workflow:'A'}),before=structuredClone(graph);
+ const xml=C.graphml(graph);assert.ok(xml.includes('<key id="unit_ids" for="edge" attr.name="unit_ids" attr.type="string"/>'));
+ assert.ok(xml.includes('<data key="unit_ids">[&quot;p1&quot;, &quot;p2&quot;]</data>'));
+ assert.deepEqual(graph,before);
+ graph.edges[0].unit_ids=['p😀<1>','p"2\\3'];
+ const escaped=C.graphml(graph).match(/<data key="unit_ids">(.*?)<\/data>/)[1];
+ const decoded=escaped.replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+ assert.deepEqual(JSON.parse(decoded),graph.edges[0].unit_ids);assert.ok(!escaped.includes('<1>'));
+});
+test('coding coverage separates observations, attribute rows, empty codes and orphan records',()=>{
+ const b=fixture();b.reports.push({report_id:'r3',year:null,report_date:null});
+ b.attributes.push({workflow:'A',actor_id:'a',report_id:'r2',role_codes:[],specialty_codes:[],cameo_codes:[],primary_cameo_codes:[]},
+  {workflow:'A',actor_id:'a',report_id:'r3',role_codes:['BUS'],specialty_codes:[],cameo_codes:['BUS'],primary_cameo_codes:['BUS']});
+ const before=structuredClone(b),index=C.indexBundle(b),coding=C.actorCoding(index,{workflow:'A',actorId:'a'});
+ assert.deepEqual(coding.observedReports,['r1','r2']);assert.deepEqual(coding.attributeReports,['r1','r2','r3']);assert.deepEqual(coding.reports,coding.attributeReports);
+ assert.deepEqual(coding.codedReports,['r1']);assert.deepEqual(coding.roleReports,['r1']);assert.deepEqual(coding.primarySupportReports,['r1']);
+ assert.deepEqual(coding.orphanAttributeReports,['r3']);assert.deepEqual(coding.observedWithoutAttributeReports,[]);
+ assert.deepEqual(coding.roles,['BUS','GOV'],'existing display aggregation is not rewritten by coverage reporting');
+ const missing=C.actorCoding(index,{workflow:'A',actorId:'b'});assert.deepEqual(missing.observedWithoutAttributeReports,['r1','r2']);assert.deepEqual(missing.codedReports,[]);
+ const selected=C.actorCoding(index,{workflow:'A',actorId:'a',reportIds:['r2']});assert.deepEqual(selected.observedReports,['r2']);assert.deepEqual(selected.attributeReports,['r2']);assert.deepEqual(selected.codedReports,[]);
+ const empty=C.actorCoding(index,{workflow:'A',actorId:'a',reportIds:[]});for(const field of ['observedReports','attributeReports','codedReports','roleReports','primarySupportReports','orphanAttributeReports'])assert.deepEqual(empty[field],[]);
+ assert.deepEqual(C.actorCoding(index,{workflow:'L',actorId:'a'}).attributeReports,[]);assert.deepEqual(b,before);
+});
+test('coding coverage uses native analytical and primary-support fields without inferring support',()=>{
+ const b=fixture();b.attributes[0].role_codes=[];b.attributes[0].specialty_codes=['MIL'];b.attributes[0].cameo_codes=['MIL'];b.attributes[0].primary_cameo_codes=[];
+ const coding=C.actorCoding(C.indexBundle(b),{workflow:'A',actorId:'a'});
+ assert.deepEqual(coding.codedReports,['r1']);assert.deepEqual(coding.roleReports,[]);assert.deepEqual(coding.primarySupportReports,[]);assert.deepEqual(coding.specialties,['MIL']);
+});
+test('intervention links use exact workflow-scoped IDs and deduplicate repeated references',()=>{
+ const b=fixture();b.occurrences[0].start=3;b.occurrences[0].end=8;
+ b.interventions=[{candidate_id:'o1',native_ids:['o1','o2','o1'],paragraph_id:'p1',decision:'accept',boundary_changed:true,human_added:false}];
+ const before=structuredClone(b),index=C.indexBundle(b),a=C.actorInterventions(index,{workflow:'A',actorId:'a'}),l=C.actorInterventions(index,{workflow:'L',actorId:'a'});
+ assert.equal(a.length,1);assert.equal(l.length,1);assert.equal(a[0],l[0]);assert.equal(a[0].record,b.interventions[0]);assert.equal(a[0].recordIndex,0);
+ assert.deepEqual(a[0].actors,[{workflow:'A',actor_id:'a'},{workflow:'L',actor_id:'a'}]);assert.equal(a[0].shared,true);assert.equal(a[0].status,'linked');
+ assert.deepEqual(a[0].matchedOccurrences.map(o=>[o.workflow,o.occurrence_id]),[['A','o1'],['A','o2'],['L','o1']]);
+ assert.equal(C.actorInterventions(index,{workflow:'A',actorId:'b'}).length,0);assert.deepEqual(index.interventionAssociations.corpusOnly,[]);assert.deepEqual(b,before);
+});
+test('interventions do not infer actors from a name, span, paragraph or unmatched ID',()=>{
+ const b=fixture();b.interventions=[
+  {candidate_id:'o1',native_ids:['o1'],paragraph_id:'p2',decision:'accept'},
+  {candidate_id:'unknown',native_ids:[],paragraph_id:'p1',decision:'reject',name:'Alpha',start:2,end:7},
+  {candidate_id:'o6',native_ids:['o6'],paragraph_id:'p2',decision:'reject'},
+  {candidate_id:'o1',native_ids:['o1'],paragraph_id:'p1',workflow:'L',decision:'accept'}];
+ const index=C.indexBundle(b),records=index.interventionAssociations.records;
+ assert.deepEqual(records.map(r=>r.status),['unmatched','unmatched','unresolved','linked']);assert.equal(index.interventionAssociations.corpusOnly.length,3);
+ assert.deepEqual(records[2].actors,[]);assert.equal(records[2].matchedOccurrences[0].actor_id,null);
+ assert.deepEqual(C.actorInterventions(index,{workflow:'A',actorId:'a'}),[]);assert.deepEqual(C.actorInterventions(index,{workflow:'L',actorId:'a'}).map(r=>r.recordIndex),[3]);
+});
+test('an intervention shared by several native actors remains one corpus record',()=>{
+ const b=fixture();b.interventions=[{candidate_id:'o1',native_ids:['o3'],paragraph_id:'p1',decision:'accept'}];
+ const index=C.indexBundle(b),record=index.interventionAssociations.records[0];
+ assert.equal(index.interventionAssociations.records.length,1);assert.equal(record.actors.length,3);assert.equal(record.shared,true);
+ assert.equal(C.actorInterventions(index,{workflow:'A',actorId:'b'})[0],record);
+ const model=fixture();model.dataset.kind='model-only';model.dataset.rosters=['L'];model.nodes=model.nodes.filter(n=>n.workflow==='L');model.occurrences=model.occurrences.filter(o=>o.workflow==='L');model.attributes=[];
+ const automated=C.indexBundle(model);assert.deepEqual(automated.interventionAssociations.records,[]);assert.deepEqual(C.actorInterventions(automated,{workflow:'L',actorId:'a'}),[]);
+});
+test('released intervention coverage and coding denominators match the audited frozen snapshot',()=>{
+ const fs=require('node:fs'),path=require('node:path'),b=JSON.parse(fs.readFileSync(path.join(__dirname,'../../data/bundle.json'),'utf8')),before=C.canonical(b),index=C.indexBundle(b);
+ const records=index.interventionAssociations.records;
+ assert.equal(records.length,606);assert.equal(records.filter(r=>r.shared).length,572);assert.equal(index.interventionAssociations.corpusOnly.length,4);
+ assert.ok(index.interventionAssociations.corpusOnly.every(r=>r.status==='unresolved'));
+ for(const [workflow,linked,actors,observed,coded,primary]of [['L',596,125,292,281,278],['A',578,117,280,278,238]]){
+  const roster=b.nodes.filter(n=>n.workflow===workflow),links=roster.map(n=>C.actorInterventions(index,{workflow,actorId:n.actor_id}));
+  assert.equal(links.filter(rows=>rows.length).length,actors);assert.equal(links.reduce((n,rows)=>n+rows.length,0),linked);
+  const coverage=roster.map(n=>C.actorCoding(index,{workflow,actorId:n.actor_id}));
+  assert.equal(coverage.reduce((n,c)=>n+c.observedReports.length,0),observed);assert.equal(coverage.reduce((n,c)=>n+c.codedReports.length,0),coded);assert.equal(coverage.reduce((n,c)=>n+c.primarySupportReports.length,0),primary);
+  assert.ok(coverage.every(c=>!c.orphanAttributeReports.length&&!c.observedWithoutAttributeReports.length));
+ }
+ assert.equal(C.canonical(b),before);
+});
 function fixture(){
  const b={schema:'pkoc-explorer-v1',dataset:{id:'fixture',title:'Domain fixture',kind:'frozen-study',rosters:['L','A']},
  reports:[{report_id:'r1',document_symbol:'S/2020/1',report_date:'2020-01-01',year:2020,official_url:'https://example.org/1'},{report_id:'r2',document_symbol:'S/2021/2',report_date:null,year:null,official_url:'https://example.org/2'}],

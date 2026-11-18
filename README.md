@@ -2,15 +2,17 @@
 
 Explore the documented UNMIL research example by Krerkkaiwan Kajohnkunchonlathorn, inspect the evidence behind its networks, and download its structured annotations. The repository also includes a reusable PKOC annotation-to-network toolkit for researcher-selected English reports.
 
-**Website:** https://scott-kj.github.io/pkoc-research-explorer/
+**[Open the explorer](https://scott-kj.github.io/pkoc-research-explorer/)**
 
 **[Toolkit setup and runnable example](docs/quickstart.md)** · **[Full toolkit guide](docs/toolkit.md)** · **[Research workflow](docs/research-workflow.md)**
+
+The research explanation is aligned with manuscript Revision 4.2, dated 18 November 2026. The released UNMIL annotations and six native networks remain the same frozen scientific snapshot. The manuscript remains unpublished and is not distributed here.
 
 ## Explore and download
 
 The original dark theme remains the default. Choose **Light mode** in the header or graph toolbar for a light background; **Dark mode** restores the original appearance. Your preference is saved in this browser, including after reload. Theme changes preserve your filters, selections and graph positions. SVG and PNG downloads use the selected theme.
 
-The website opens directly to **Network construction**. CAMEO role colors, named filters, and a labeled legend reflect the selected reports. Toggle the CAMEO display to use neutral nodes and hide the role legend without changing the annotations or role selection. Multiple roles stay multiple; specialties remain separate. **Hide isolates** hides actors with no neighbors in the constructed network. Display controls change visibility, while table and GraphML exports retain the complete constructed network. Raw provenance and integrity values stay in downloadable files rather than the main interface.
+The website opens directly to the network explorer. CAMEO role colors, named filters, and a labeled legend reflect the selected reports. Toggle the CAMEO display to use neutral nodes and hide the role legend without changing the annotations or role selection. Multiple roles stay multiple; specialties remain separate. **Hide isolates** hides actors with no neighbors in the constructed network. Display controls change visibility, while table and GraphML exports retain the complete constructed network. Raw provenance and integrity values stay in downloadable files rather than the main interface.
 
 - Follow the linked [research framework and workflow](docs/research-workflow.md) from report checks and cleaning to annotation, human review, and network comparison.
 - Search actor × year observations, inspect actor records and examine the distinct units supporting each edge.
@@ -18,13 +20,15 @@ The website opens directly to **Network construction**. CAMEO role colors, named
 - Download annotations, actor and edge tables, incidence lists, GraphML and view settings, or save the current graph as SVG or PNG.
 - Load compatible JSON bundles or verified source text locally. The application does not upload these files or request API credentials.
 
-The larger graph supports mouse/touch dragging, background panning, zoom controls, and **Full screen**. Choose **Paper**, **Circle**, **Random**, or **3D sphere** to rearrange the same network. Paper uses the saved study arrangement; the other layouts provide alternative ways to inspect connections. Position and apparent depth are presentation choices, not measured relationships. Node size distinguishes **degree**, the number of connected actors, rather than the number of mentions or total edge weight.
+The larger graph supports mouse/touch dragging, background panning, zoom controls, and **Full screen**. Choose **Study coordinates**, **Circle**, **Random**, or **3D sphere** to rearrange the same network. Study coordinates uses the saved study positions; web sizing, labels and framing differ from the manuscript figures. Position and apparent depth do not encode measured relationships. Node size represents **degree**, the number of connected actors; mention counts and total edge weight are separate measures.
 
 Smart labels avoid overlaps; choose **All labels** to see every name or **Selected only** to focus on one actor. Names stay readable while zooming. Focus a node and use arrow keys to move it (Shift moves farther). **Fit** frames the current positions. Actor and edge details appear beside the graph on wide screens and below it on smaller screens, including in full-screen mode.
 
 Dragged positions persist across filters within the current page session and are included in downloaded view settings. They do not change annotations, edges, weights, or scientific exports, and they are not restored from a URL after reload. SVG and PNG images capture the current graph view, including its display filters, layout, labels, and camera; they are illustrations of that view, not substitutes for the complete network tables. Full-screen mode retains the evidence panel and dialogs; Escape or **Exit full screen** returns to the page. Browsers that restrict the Fullscreen API use a full-window workspace.
 
 Year cells count observations in published reports; blanks do not establish absence or tenure. Edges represent undirected co-occurrence, not interactions or alliances. The [data dictionary](docs/data-dictionary.md) explains identity, uncertainty, human decisions and source support.
+
+L is the executed model workflow; A is its human-reviewed continuation. Their dependence prevents a causal estimate of the benefit of human review. The same-researcher R reference contains 25 mentions of 15 people in 120 paragraphs from six reports, with two documented eligible mentions missing from the retained ledger. Office and affiliation accuracy has not been systematically validated, and the study does not establish measured labor or cost savings. Source links make evidence inspectable; they do not independently certify a claim's meaning or accuracy. See the [coverage denominators and interpretation limits](docs/research-workflow.md#evidence-coverage-and-validation-limits).
 
 ## Try the reusable toolkit
 

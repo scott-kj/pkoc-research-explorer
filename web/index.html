@@ -26,7 +26,11 @@
   </div>
 </header>
 <div class="shell">
-<section class="intro" aria-labelledby="site-title"><div><p class="eyebrow">Open methods / Political networks</p><h1 id="site-title">Build a network. Follow the evidence.</h1><p id="dataset-title" class="lead">Loading the research dataset…</p></div><p class="intro-note">From report observations to connected actors.<br>Inspect the data, change the view, make it reproducible.</p></section>
+<section class="intro" aria-labelledby="site-title">
+  <div class="intro-heading"><div class="intro-kicker"><p class="eyebrow">Open methods / Political networks</p><p id="study-alignment" class="alignment-note"></p></div><h1 id="site-title">From peacekeeping reports to political networks.</h1></div>
+  <div class="intro-copy"><p id="intro-description" class="lead">Explore the actors and evidence recorded in peacekeeping reports. Trace how annotation choices shape the network.</p><p class="intro-dataset"><span class="small-label">Current dataset</span><strong id="dataset-title">Loading the research dataset…</strong></p></div>
+  <div class="intro-actions"><button id="intro-explore" class="button primary" type="button">Explore network <span aria-hidden="true">↗</span></button><button id="intro-workflow" class="button subtle" type="button">Research workflow</button><a class="button text-button" href="https://github.com/scott-kj/pkoc-research-explorer/blob/main/docs/quickstart.md" target="_blank" rel="noopener noreferrer">Run toolkit <span aria-hidden="true">↗</span></a></div>
+</section>
 <p id="app-message" class="message" role="status" aria-live="polite"></p>
 <div id="error" class="error-panel" role="alert" hidden></div>
 <nav id="tabs" class="tabs" role="tablist" aria-label="Research explorer sections">
@@ -41,7 +45,8 @@
 <section id="view-workflow" class="view" role="tabpanel" aria-labelledby="tab-workflow" hidden>
   <div id="overview-metrics" class="metric-grid"></div>
   <div class="section-heading"><div><p class="eyebrow">A measurement workflow</p><h2>Every network starts with decisions.</h2></div><button class="button primary" id="overview-network">Explore the network <span aria-hidden="true">→</span></button></div>
-  <p class="section-intro">The reports contain observations. Annotation identifies mentions and actors, then associates offices and actor-sector codes with report evidence. The network connects actors who occur in the same textual unit.</p>
+  <p class="section-intro">Annotation records mentions and actor identities, then associates offices and actor-sector codes with report evidence. An edge means two annotated actors share a textual unit in the selected branch.</p>
+  <section id="study-context" class="panel study-context" aria-label="Study context"></section>
   <section id="research-framework" class="panel framework" aria-labelledby="framework-title"></section>
   <ol id="workflow-steps" class="workflow-grid"></ol>
   <div class="two-columns">
@@ -63,36 +68,47 @@
   <div class="actor-layout"><aside class="panel actor-directory"><h3 id="actor-list-title">Actors</h3><div id="actor-list" class="actor-list" aria-labelledby="actor-list-title"></div></aside><article id="actor-detail" class="panel actor-detail"></article></div>
 </section>
 <section id="view-network" class="view" role="tabpanel" aria-labelledby="tab-network">
-  <div class="section-heading network-heading"><div><p class="eyebrow">Explore the evidence</p><h1>Network construction</h1><p id="network-dataset-title" class="small muted"></p></div><p class="network-intro">A connection means two people appear in the same text unit. <br>Choose a node or edge to inspect the observations behind it.</p></div>
+  <h2 class="visually-hidden">Network construction</h2>
   <div class="network-workspace">
+    <div class="network-overview">
     <details id="construction-panel" class="panel construction-panel" aria-label="Network construction settings" open>
-      <summary class="panel-label"><span class="step-number">01</span><span>Construction settings</span><span id="construction-summary" class="construction-summary"></span></summary><div class="construction-content">
-      <p class="small muted">These choices rebuild the network.</p>
+      <summary class="panel-label"><span class="construction-title">Construct network</span><span id="construction-summary" class="construction-summary"></span></summary><div class="construction-content">
+      <p id="network-dataset-title" class="small muted"></p>
+      <p class="small muted">These choices rebuild the network. Connections represent shared text, not interaction or alliance.</p>
       <div class="controls construction-controls">
         <label>Annotation source<select id="network-workflow"></select></label>
-        <label>Connect actors within<select id="network-scale"><option value="sentence">Sentence</option><option value="paragraph" selected>A paragraph · paper preset</option><option value="report">Report</option></select></label>
+        <label>Connect actors within<select id="network-scale"><option value="sentence">Sentence</option><option value="paragraph" selected>Paragraph · study preset</option><option value="report">Report</option></select></label>
         <div class="year-range"><label>From year<select id="network-from"></select></label><label>Through year<select id="network-to"></select></label></div>
       </div>
       <details class="report-selection"><summary>Choose reports <span id="report-selection-count"></span></summary><div class="inline-actions"><button id="reports-all" class="button subtle">All reports</button><button id="reports-none" class="button subtle">Clear</button></div><div id="report-options" class="report-options"></div></details>
-      <button id="reset-network" class="button primary full-width">Reset paper preset</button>
+      <button id="reset-network" class="button primary full-width">Reset study preset</button>
       <div class="construction-note"><strong>Read the network carefully</strong><p>Co-occurrence does not establish interaction or alliance. Actors with no connections are retained.</p><a href="#view=workflow">How this study works <span aria-hidden="true">↗</span></a></div>
     </div></details>
+    <div id="network-metrics" class="metric-grid" aria-label="Constructed network summary"></div>
+    </div>
     <div class="network-stage">
-      <div id="network-metrics" class="metric-grid"></div>
-      <div class="controls display-controls">
-        <label class="grow">Find an actor<input id="network-search" type="search" placeholder="Name or alias"></label>
-        <label>CAMEO role<select id="network-role"><option value="">All roles</option></select></label>
-        <details class="display-options"><summary>Display options</summary><div class="display-options-body"><p class="small muted">Only visibility changes. Downloads keep the complete constructed network.</p><label>Analytical code union<select id="network-code"><option value="">All codes</option></select></label><label>Minimum edge weight<input id="network-weight" type="number" min="1" value="1" step="1"></label></div></details>
-      </div>
       <div id="network-layout" class="network-layout" aria-label="Network exploration workspace">
         <section class="panel graph-panel" aria-label="Network visualization">
-          <div class="graph-toolbar"><span id="graph-status" aria-live="polite"></span><div class="inline-actions">
-          <label class="label-control">Layout<select id="graph-layout"><option value="paper">Paper</option><option value="circle">Circle</option><option value="random">Random</option><option value="sphere3d">3D sphere</option></select></label>
-          <label class="checkbox-label toolbar-toggle"><input id="network-isolates" type="checkbox">Hide isolates</label>
-          <label class="checkbox-label toolbar-toggle"><input id="cameo-colors" type="checkbox" checked>CAMEO colors</label><label class="label-control">Actor labels<select id="graph-labels"><option value="smart">Smart labels</option><option value="all">All labels</option><option value="focus">Selected only</option></select></label><button id="zoom-out" class="icon-button" aria-label="Zoom out">−</button><button id="zoom-in" class="icon-button" aria-label="Zoom in">+</button><button id="zoom-reset" class="button subtle">Fit</button><button id="reset-layout" class="button subtle">Reset layout</button><button id="graph-fullscreen" class="button primary" aria-expanded="false" aria-controls="network-layout">Full screen</button><button class="button subtle theme-toggle" data-theme-toggle type="button" aria-label="Switch to light mode"><svg class="theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><svg class="theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 15.5A8.8 8.8 0 0 1 8.5 4 8.8 8.8 0 1 0 20 15.5Z"/></svg><span data-theme-label>Light mode</span></button><details class="graph-export"><summary>Export image</summary><div class="graph-export-menu"><button id="export-svg-toolbar" class="button subtle">Download SVG</button><button id="export-png-toolbar" class="button subtle">Download PNG</button></div></details></div></div>
+          <div class="graph-toolbar">
+            <div class="graph-control-row graph-selection-row">
+              <div class="controls display-controls">
+                <label class="grow">Find an actor<input id="network-search" type="search" placeholder="Name or alias"></label>
+                <label>CAMEO role<select id="network-role"><option value="">All roles</option></select></label>
+              </div>
+              <label class="label-control layout-control">Layout<select id="graph-layout"><option value="paper">Study coordinates</option><option value="circle">Circle</option><option value="random">Random</option><option value="sphere3d">3D sphere</option></select></label>
+              <button id="graph-fullscreen" class="button primary" aria-expanded="false" aria-controls="network-layout">Full screen <span aria-hidden="true">↗</span></button>
+            </div>
+            <div class="graph-control-row graph-presentation-row">
+              <div class="control-cluster" role="group" aria-label="Graph appearance"><label class="checkbox-label toolbar-toggle"><input id="network-isolates" type="checkbox">Hide isolates</label><label class="checkbox-label toolbar-toggle"><input id="cameo-colors" type="checkbox" checked>CAMEO colors</label></div>
+              <div class="control-cluster" role="group" aria-label="Graph zoom"><button id="zoom-out" class="icon-button" aria-label="Zoom out">−</button><button id="zoom-in" class="icon-button" aria-label="Zoom in">+</button><button id="zoom-reset" class="button subtle">Fit</button></div>
+              <details class="view-options"><summary>View options</summary><div class="view-options-content"><label class="label-control">Actor labels<select id="graph-labels"><option value="smart">Smart labels</option><option value="all">All labels</option><option value="focus">Selected only</option></select></label><button id="reset-layout" class="button subtle">Reset layout</button><button class="button subtle theme-toggle" data-theme-toggle type="button" aria-label="Switch to light mode"><svg class="theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg><svg class="theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 15.5A8.8 8.8 0 0 1 8.5 4 8.8 8.8 0 1 0 20 15.5Z"/></svg><span data-theme-label>Light mode</span></button></div></details>
+              <details class="display-options"><summary>More filters</summary><div class="display-options-body"><p class="small muted">Visibility only. Data downloads keep the full constructed network.</p><label>Analytical code union<select id="network-code"><option value="">All codes</option></select></label><label>Minimum edge weight<input id="network-weight" type="number" min="1" value="1" step="1"></label></div></details>
+              <details class="graph-export"><summary>Export image</summary><div class="graph-export-menu"><button id="export-svg-toolbar" class="button subtle">Download SVG</button><button id="export-png-toolbar" class="button subtle">Download PNG</button></div></details>
+            </div>
+          </div>
           <div id="sphere-controls" class="sphere-controls" hidden><span class="small-label">ROTATE VIEW</span><label>Horizontal °<input id="sphere-yaw" type="number" min="-180" max="180" step="15" value="0"></label><label>Vertical °<input id="sphere-pitch" type="number" min="-90" max="90" step="15" value="0"></label><label>Viewpoint<select id="sphere-viewpoint"><option value="">Custom</option><option value="front">Front</option><option value="back">Back</option><option value="left">Left</option><option value="right">Right</option><option value="top">Top</option></select></label></div>
-          <p id="graph-announcement" class="graph-announcement" role="status" aria-live="polite"></p><p id="graph-help" class="graph-help">Drag nodes to arrange · Drag background to pan · Ctrl + scroll to zoom · Arrow keys move a focused node</p><div id="graph-wrap"><svg id="network-svg" viewBox="0 0 900 640" role="group" aria-label="Constructed co-occurrence network" aria-describedby="graph-help"></svg></div>
-          <details id="graph-legends" class="graph-footer" open><summary>Graph legends · roles and degree</summary><div id="cameo-key"><p class="small-label">COLOR / CAMEO ROLE</p><div id="role-legend" class="role-legend" aria-label="CAMEO role legend"></div><p class="graph-caption">Colors distinguish single roles, multiple roles, and no recorded role. The role filter includes actors with several roles. <a href="#edge-heading">Browse the edge table</a>.</p></div><div id="size-key" class="size-key" aria-label="Node size legend"></div><p class="graph-caption">Position and depth organize the view; they have no analytical meaning.</p></details>
+          <p id="graph-announcement" class="graph-announcement" role="status" aria-live="polite"></p><div class="graph-guidance"><p id="graph-help" class="graph-help">Drag to arrange · Ctrl + scroll to zoom · Arrow keys move a focused node</p><span id="graph-status" aria-live="polite"></span></div><div id="graph-wrap"><svg id="network-svg" viewBox="0 0 900 640" role="group" aria-label="Constructed co-occurrence network" aria-describedby="graph-help"></svg></div>
+          <details id="graph-legends" class="graph-footer" open><summary>Graph legends · roles and degree</summary><div id="cameo-key"><p class="small-label">COLOR / CAMEO ROLE</p><div id="role-legend" class="role-legend" aria-label="CAMEO role legend"></div><p class="graph-caption">Colors distinguish single roles, multiple roles, and no recorded role. The role filter includes actors with several roles. <a href="#edge-heading">Browse the edge table</a>.</p></div><div id="size-key" class="size-key" aria-label="Node size legend"></div><p id="layout-scope-note" class="graph-caption">Position and depth organize the view; they have no analytical meaning.</p></details>
         </section>
         <details id="inspector-panel" class="panel network-inspector" open><summary>Actor &amp; edge details</summary><aside id="network-detail" class="network-detail" aria-label="Selected actor or edge"><h3>Follow a connection</h3><p>Choose a node or edge to inspect its evidence.</p></aside></details>
       </div>

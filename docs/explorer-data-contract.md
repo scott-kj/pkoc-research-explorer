@@ -19,7 +19,7 @@ The browser validates relationships, declared branches, duplicate IDs, span cons
 
 ## Graph presentation and image exports
 
-Paper, Circle, Random and 3D sphere layouts, dragged coordinates and camera state are presentation settings. They do not change frozen `nodes[].layout`, annotation fields, the selected construction, incidence, edge weights or scientific snapshot. Apparent distance or depth does not encode an additional political relationship. Node size represents the number of neighbors in the constructed network, including when visibility controls hide some actors.
+Study coordinates, Circle, Random and 3D sphere layouts, dragged coordinates and camera state are presentation settings. Study coordinates is the display label for the existing `paper` setting; older URLs and downloaded settings retain that key. It uses saved study positions, with web-specific sizing, labels and framing rather than an identical manuscript figure. These settings do not change frozen `nodes[].layout`, annotation fields, the selected construction, incidence, edge weights or scientific snapshot. Apparent distance or depth does not encode an additional political relationship. Node size represents the number of neighbors in the constructed network, including when visibility controls hide some actors.
 
 Hide isolates, CAMEO appearance, role visibility and label controls affect displayed marks only. The CAMEO appearance toggle controls role colors and the role legend; it does not remove role assignments or alter a selected role filter. Role and specialty fields remain available in data exports. Actor/edge inspection uses the same identifiers in normal and full-screen views.
 
