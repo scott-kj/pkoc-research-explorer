@@ -31,7 +31,7 @@ Use your environment's Python executable for the `python` commands below. Virtua
 
 The demo runs the complete pipeline against a **scripted loopback fixture, not an LLM**. It uses original fictional passages, makes no external calls, and costs nothing. Expect five paragraphs, three actors, and one paragraph-scale edge with weight two. Read the [example description](../examples/README.md).
 
-Open the printed `index.html` path. Alternatively, visit the [public explorer](https://scott-kj.github.io/pkoc-research-explorer/), choose **Use your data → Open local dataset**, and select `runs/demo/bundle.json`. Files are read locally in your browser. Select `prepared.json` with **Add local source text** to inspect the fictional evidence. For a second demonstration, choose a new output such as `runs/demo-2`; existing results are never overwritten.
+Open the printed `index.html` path. Alternatively, visit the [public explorer](https://scott-kj.github.io/pkoc-research-explorer/), choose **Data & toolkit → Open local dataset**, and select `runs/demo/bundle.json`. Files are read locally in your browser. Select `prepared.json` with **Add local source text** to inspect the fictional evidence. For a second demonstration, choose a new output such as `runs/demo-2`; existing results are never overwritten.
 
 ## 2. Select your own reports
 

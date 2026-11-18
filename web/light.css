@@ -93,7 +93,6 @@
 :root[data-theme="light"] input::placeholder { color: #586b7b; opacity: 1; }
 :root[data-theme="light"] .toolbar-toggle { border-color: var(--control-line); }
 :root[data-theme="light"] input[type="checkbox"] { accent-color: var(--teal); }
-:root[data-theme="light"] .data-tools > summary:hover,
 :root[data-theme="light"] .display-options > summary:hover,
 :root[data-theme="light"] .view-options > summary:hover,
 :root[data-theme="light"] .graph-export > summary:hover {

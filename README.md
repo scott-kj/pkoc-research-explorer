@@ -43,7 +43,7 @@ python tools/run_case.py validate --output runs/demo
 
 The example uses **original fictional text and scripted local responses, not an LLM**. It exercises preparation, annotation stages, identity resolution, CAMEO coding, all three network scales, and explorer export. Expect three actors and one paragraph-scale edge with weight two, with an isolate retained. It makes no external calls. Read [the example description](examples/README.md).
 
-Open the `index.html` path printed by the command, or load `runs/demo/bundle.json` through **Use your data** in the public explorer. Files stay in your browser.
+Open the `index.html` path printed by the command, or load `runs/demo/bundle.json` through **Data & toolkit → Open local dataset** in the public explorer. Files stay in your browser.
 
 For virtual environments, your own reports, local llama.cpp and compatible APIs, follow the **[step-by-step setup guide](docs/quickstart.md)**. Real inference requires explicit `--execute`, a provider profile, and a total request-attempt cap. Credentials stay in environment variables. Local runs, raw model responses, source reports and model files are ignored by Git.
 
